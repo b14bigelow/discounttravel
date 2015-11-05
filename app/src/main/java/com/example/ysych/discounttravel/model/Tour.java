@@ -12,9 +12,6 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "tours")
 public class Tour {
 
-    @DatabaseField(generatedId = true, canBeNull = false, dataType = DataType.STRING, columnName = "id")
-    String id;
-
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "siteid")
     @SerializedName("id")
     @Expose
@@ -45,4 +42,8 @@ public class Tour {
     @Expose
     String introtext;
 
+    @Override
+    public String toString() {
+        return siteId + ", " + category + ", " + created + ", " + modified + ", " + title + ", " + introtext;
+    }
 }

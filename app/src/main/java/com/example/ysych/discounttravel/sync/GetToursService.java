@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
@@ -36,7 +37,7 @@ public class GetToursService extends IntentService {
 
         try{
             List<Tour> tours = HelperFactory.getHelper().getTourDAO().getAllRoles();
-            if(tours == null){
+
                 Uri builtUri = Uri.parse(APIContract.DISCOUNT_API_URL).buildUpon().build();
                 URL url = new URL(builtUri.toString());
                 httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -56,8 +57,12 @@ public class GetToursService extends IntentService {
                         tours.add(tour);
                     }
                 }
+                if(!tours.isEmpty()){
+                    for(Tour tour1 : tours){
+                        Toast.makeText(getApplicationContext(), tour1.toString(), Toast.LENGTH_SHORT).show();
+                    }
+                }
                 reader.close();
-            }
 
         }
         catch (IOException e){
