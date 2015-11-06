@@ -3,11 +3,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/drawer_item_1"
-            android:icon="@android:drawable/ic_media_ff"
-            android:title="@string/action_settings"/>
+            android:icon="@drawable/ic_account_box_black_24dp"
+            android:title="@string/dummy_menu_item"/>
         <item
             android:id="@+id/drawer_item_2"
-            android:icon="@android:drawable/ic_media_ff"
-            android:title="@string/hello_world"/>
+            android:icon="@drawable/ic_autorenew_black_24dp"
+            android:title="@string/dummy_menu_item"/>
+        <item
+            android:id="@+id/drawer_item_3"
+            android:icon="@drawable/ic_card_giftcard_black_24dp"
+            android:title="@string/dummy_menu_item"/>
+        <item
+            android:id="@+id/drawer_item_4"
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="@string/dummy_menu_item"/>
+        <item
+            android:id="@+id/drawer_item_5"
+            android:icon="@drawable/ic_perm_device_information_black_24dp"
+            android:title="@string/dummy_menu_item"/>
+        <item
+            android:id="@+id/drawer_item_6"
+            android:icon="@drawable/ic_stars_black_24dp"
+            android:title="@string/dummy_menu_item"/>
     </group>
 </menu>

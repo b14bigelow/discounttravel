@@ -1,6 +1,5 @@
-package com.example.ysych.discounttravel;
+package com.example.ysych.discounttravel.activities;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.fragments.FragmentCountry;
-import com.example.ysych.discounttravel.sync.GetToursService;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -56,10 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.syncState();
 
         navigate(mNavItemId);
-
-        Intent intent = new Intent(this, GetToursService.class);
-        startService(intent);
-
     }
 
     private void navigate(final int itemId) {

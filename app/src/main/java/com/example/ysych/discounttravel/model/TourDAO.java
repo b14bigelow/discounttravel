@@ -16,7 +16,19 @@ public class TourDAO extends BaseDaoImpl<Tour, Integer> {
         super(connectionSource, dataClass);
     }
 
-    public List<Tour> getAllRoles() throws SQLException {
+    public List<Tour> getAllTours() throws SQLException {
         return this.queryForAll();
+    }
+
+    public int deleteTour(Tour tour) throws SQLException {
+        return this.delete(tour);
+    }
+
+    public int deleteById(int id) throws SQLException {
+        return this.deleteById(id);
+    }
+
+    public int insertTour(Tour tour) throws SQLException {
+        return this.create(tour);
     }
 }

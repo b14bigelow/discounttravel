@@ -46,4 +46,28 @@ public class Tour {
     public String toString() {
         return siteId + ", " + category + ", " + created + ", " + modified + ", " + title + ", " + introtext;
     }
+
+    public String getSiteId() {
+        return siteId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getIntrotext() {
+        return introtext;
+    }
 }

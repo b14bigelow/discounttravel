@@ -3,9 +3,9 @@ package com.example.ysych.discounttravel.sync;
 import android.app.IntentService;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
-import android.widget.Toast;
+import android.support.v4.content.LocalBroadcastManager;
 
+import com.example.ysych.discounttravel.activities.SplashActivity;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
 import com.google.gson.Gson;
@@ -18,7 +18,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by ysych on 05.11.2015.
@@ -36,8 +35,6 @@ public class GetToursService extends IntentService {
         JsonReader reader = null;
 
         try{
-            List<Tour> tours = HelperFactory.getHelper().getTourDAO().getAllRoles();
-
                 Uri builtUri = Uri.parse(APIContract.DISCOUNT_API_URL).buildUpon().build();
                 URL url = new URL(builtUri.toString());
                 httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -53,21 +50,13 @@ public class GetToursService extends IntentService {
                 Tour tour;
                 while (reader.hasNext()){
                     tour = gson.fromJson(reader, Tour.class);
-                    if (tours != null) {
-                        tours.add(tour);
-                    }
+                    HelperFactory.getHelper().getTourDAO().create(tour);
                 }
-                if(!tours.isEmpty()){
-                    for(Tour tour1 : tours){
-                        Toast.makeText(getApplicationContext(), tour1.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                reader.close();
-
+                Thread.sleep(2000);
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+                localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION));
         }
-        catch (IOException e){
-            Log.e(getClass().getSimpleName(), e.getMessage());
-        } catch (SQLException e) {
+        catch (IOException | SQLException | InterruptedException e){
             e.printStackTrace();
         } finally {
             if (httpURLConnection != null) {
@@ -77,7 +66,7 @@ public class GetToursService extends IntentService {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    Log.e(getClass().getSimpleName(), e.getMessage(), e);
+                    e.printStackTrace();
                 }
             }
         }
