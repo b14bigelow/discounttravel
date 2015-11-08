@@ -12,10 +12,12 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "tours")
 public class Tour {
 
-    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "siteid")
+    public static final String TOUR_ID = "tour_id";
+
+    @DatabaseField(canBeNull = false, dataType = DataType.INTEGER, columnName = "id", id = true)
     @SerializedName("id")
     @Expose
-    String siteId;
+    int siteId;
 
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "catid")
     @SerializedName("catid")
@@ -47,7 +49,7 @@ public class Tour {
         return siteId + ", " + category + ", " + created + ", " + modified + ", " + title + ", " + introtext;
     }
 
-    public String getSiteId() {
+    public int getSiteId() {
         return siteId;
     }
 

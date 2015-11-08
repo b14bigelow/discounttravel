@@ -5,6 +5,7 @@ package com.example.ysych.discounttravel.sync;
  */
 public class APIContract {
     public static final String DISCOUNT_SERVER_URL = "http://discount-travel.com.ua";
-    public static final String DISCOUNT_API_URL = DISCOUNT_SERVER_URL + "/api";
+    public static final String API_URL = "/api";
+    public static final String DISCOUNT_API_URL = DISCOUNT_SERVER_URL + API_URL;
 
 }

@@ -24,8 +24,6 @@ public class FragmentCountry extends Fragment{
 
     List<Tour> tours;
 
-    public static final String ARG_PLANET_NUMBER = "country";
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,7 +36,7 @@ public class FragmentCountry extends Fragment{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        RVAdapter adapter = new RVAdapter(tours);
+        RVAdapter adapter = new RVAdapter(tours, getContext());
         rv.setAdapter(adapter);
         return view;
     }

@@ -18,6 +18,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
+
+import retrofit.RestAdapter;
 
 /**
  * Created by ysych on 05.11.2015.
@@ -31,45 +34,21 @@ public class GetToursService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        HttpURLConnection httpURLConnection = null;
-        JsonReader reader = null;
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint(APIContract.DISCOUNT_SERVER_URL)
+                .build();
+        ARIRetrofit ariRetrofit = restAdapter.create(ARIRetrofit.class);
 
-        try{
-                Uri builtUri = Uri.parse(APIContract.DISCOUNT_API_URL).buildUpon().build();
-                URL url = new URL(builtUri.toString());
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestMethod("GET");
-                httpURLConnection.connect();
-
-                InputStream inputStream = httpURLConnection.getInputStream();
-
-                reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
-                Gson gson = new GsonBuilder().create();
-
-                reader.beginArray();
-                Tour tour;
-                while (reader.hasNext()){
-                    tour = gson.fromJson(reader, Tour.class);
-                    HelperFactory.getHelper().getTourDAO().create(tour);
-                }
-                Thread.sleep(2000);
-                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-                localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION));
-        }
-        catch (IOException | SQLException | InterruptedException e){
+        List<Tour> tours = ariRetrofit.getTours();
+        try {
+            Thread.sleep(2000);
+            for(Tour tour : tours){
+                HelperFactory.getHelper().getTourDAO().create(tour);
+            }
+        } catch (InterruptedException | SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
-
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION));
     }
 }
