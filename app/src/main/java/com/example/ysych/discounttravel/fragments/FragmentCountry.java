@@ -8,13 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.adapters.RVAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
-import com.example.ysych.discounttravel.sync.GetToursService;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -30,7 +28,7 @@ public class FragmentCountry extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_country, container, false);
-        final RecyclerView rv = (RecyclerView) view.findViewById(R.id.rv);
+        RecyclerView rv = (RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         rv.setLayoutManager(llm);
         try {
@@ -40,7 +38,6 @@ public class FragmentCountry extends Fragment{
         }
         RVAdapter adapter = new RVAdapter(tours, getContext());
         rv.setAdapter(adapter);
-        Toast.makeText(getContext(), String.valueOf(GetToursService.timeout / 1000), Toast.LENGTH_SHORT).show();
         return view;
     }
 }

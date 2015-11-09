@@ -2,12 +2,12 @@ package com.example.ysych.discounttravel.adapters;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.ysych.discounttravel.R;
@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by ysych on 06.11.2015.
  */
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TourViewHolder>{
 
     List<Tour> tours;
     Context context;
@@ -31,16 +31,21 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
     }
 
     @Override
-    public PersonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview, parent, false);
-        return new PersonViewHolder(v);
+    public TourViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_layout, parent, false);
+        return new TourViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final PersonViewHolder holder, final int position) {
+    public void onBindViewHolder(final TourViewHolder holder, final int position) {
         holder.tourTitle.setText(tours.get(position).getTitle());
-        holder.tourPhoto.setImageResource(R.drawable.relax);
-        holder.cv.setOnClickListener(new View.OnClickListener() {
+        if(position%2 == 0){
+            holder.tourPhoto.setImageResource(R.drawable.test_image_1);
+        }
+        else {
+            holder.tourPhoto.setImageResource(R.drawable.test_image_2);
+        }
+        holder.tourRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
@@ -51,6 +56,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.content, tourFragment)
+                        .addToBackStack(getClass().getSimpleName())
                         .commit();
             }
         });
@@ -61,17 +67,16 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder>{
         return tours.size();
     }
 
-    public static class PersonViewHolder extends RecyclerView.ViewHolder {
-        CardView cv;
+    public static class TourViewHolder extends RecyclerView.ViewHolder {
+        RelativeLayout tourRelativeLayout;
         TextView tourTitle;
         ImageView tourPhoto;
 
-        PersonViewHolder(View itemView) {
+        TourViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.cv);
-            tourTitle = (TextView)itemView.findViewById(R.id.tour_title);
-            tourPhoto = (ImageView)itemView.findViewById(R.id.tour_photo);
-            
+            tourRelativeLayout = (RelativeLayout)itemView.findViewById(R.id.item_layout_id);
+            tourTitle = (TextView)itemView.findViewById(R.id.item_layout_title);
+            tourPhoto = (ImageView)itemView.findViewById(R.id.item_layout_background_image);
         }
     }
 }

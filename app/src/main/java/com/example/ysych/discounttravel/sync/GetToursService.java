@@ -18,12 +18,6 @@ import retrofit.RestAdapter;
  */
 public class GetToursService extends IntentService {
 
-    public static long timeout;
-
-    public long getTimeout() {
-        return timeout;
-    }
-
     public GetToursService() {
         super("GetToursService");
     }
@@ -36,20 +30,10 @@ public class GetToursService extends IntentService {
                 .build();
         ARIRetrofit ariRetrofit = restAdapter.create(ARIRetrofit.class);
 
-        timeout = System.currentTimeMillis();
         List<Tour> tours = ariRetrofit.getTours();
-        timeout = System.currentTimeMillis() - timeout;
-
-        if(!tours.isEmpty()){
-            try {
-                HelperFactory.getHelper().getTourDAO().delete(HelperFactory.getHelper().getTourDAO().getAllTours());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
         try {
             for(Tour tour : tours){
-                HelperFactory.getHelper().getTourDAO().create(tour);
+                HelperFactory.getHelper().getTourDAO().createOrUpdate(tour);
             }
         } catch (SQLException e) {
             e.printStackTrace();
