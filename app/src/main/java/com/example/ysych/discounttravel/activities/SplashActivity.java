@@ -5,13 +5,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.sync.GetToursService;
@@ -24,12 +21,6 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        WebView webView = (WebView) findViewById(R.id.splash_web_view);
-        webView.setBackgroundColor(Color.BLACK);
-        webView.loadUrl("file:///android_asset/eye.html");
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
 
         IntentFilter intentFilter = new IntentFilter(GET_TOURS_RECEIVER_ACTION);
         GetToursServiceReceiver getToursServiceReceiver = new GetToursServiceReceiver();
