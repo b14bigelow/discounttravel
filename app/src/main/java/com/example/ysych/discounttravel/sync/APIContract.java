@@ -4,8 +4,6 @@ package com.example.ysych.discounttravel.sync;
  * Created by ysych on 05.11.2015.
  */
 public class APIContract {
-    public static final String DISCOUNT_SERVER_URL = "http://discount-travel.com.ua";
-    public static final String API_URL = "/api";
-    public static final String DISCOUNT_API_URL = DISCOUNT_SERVER_URL + API_URL;
-
+    public static final String DISCOUNT_SERVER_URL = "http://www.discount-travel.com.ua";
+    public static final String INDEX_PHP = "/index.php?option=com_jsoncontent&view=jsoncontent";
 }

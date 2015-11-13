@@ -22,6 +22,8 @@ import java.util.List;
  */
 public class FragmentCountry extends Fragment{
 
+    public final static String COUNTRY_CODE = "country";
+
     List<Tour> tours;
 
     @Nullable
@@ -30,9 +32,19 @@ public class FragmentCountry extends Fragment{
         View view = inflater.inflate(R.layout.fragment_country, container, false);
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+
+        Bundle bundle = getArguments();
+        long countryCode = bundle.getLong(COUNTRY_CODE);
+
         rv.setLayoutManager(llm);
         try {
-            tours = HelperFactory.getHelper().getTourDAO().getAllTours();
+            if(countryCode == R.id.all_tours){
+                tours = HelperFactory.getHelper().getTourDAO().queryForAll();
+            }
+            else {
+                tours = HelperFactory.getHelper().getTourDAO().queryForEq(Tour.CAT_ID, countryCode);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

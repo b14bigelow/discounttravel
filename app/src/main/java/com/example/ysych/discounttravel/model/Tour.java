@@ -13,11 +13,13 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Tour {
 
     public static final String TOUR_ID = "tour_id";
+    public static final String CAT_ID = "catid";
+    public static final String TYPE_IMAGE = "image";
 
     @DatabaseField(canBeNull = false, dataType = DataType.INTEGER, columnName = "id", id = true)
     @SerializedName("id")
     @Expose
-    int siteId;
+    int id;
 
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "catid")
     @SerializedName("catid")
@@ -44,13 +46,29 @@ public class Tour {
     @Expose
     String introtext;
 
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "images")
+    @SerializedName("images")
+    @Expose
+    String images;
+
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "gallery")
+    @SerializedName("gallery")
+    @Expose
+    String gallery;
+
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "type")
+    @SerializedName("type")
+    @Expose
+    String type;
+
+
     @Override
     public String toString() {
-        return siteId + ", " + category + ", " + created + ", " + modified + ", " + title + ", " + introtext;
+        return id + ", " + category + ", " + created + ", " + modified + ", " + title + ", " + introtext + ", " + images + ", " + gallery + ", " + type;
     }
 
-    public int getSiteId() {
-        return siteId;
+    public int getId() {
+        return id;
     }
 
     public String getCategory() {
@@ -72,4 +90,17 @@ public class Tour {
     public String getIntrotext() {
         return introtext;
     }
+
+    public String getImages() {
+        return images;
+    }
+
+    public String getGallery() {
+        return gallery;
+    }
+
+    public String getType() {
+        return type;
+    }
+
 }

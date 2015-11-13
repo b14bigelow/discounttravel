@@ -2,28 +2,7 @@
     <!-- group with single selected item so only one item is highlighted in the nav menu -->
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/drawer_item_1"
-            android:icon="@drawable/ic_account_box_black_24dp"
-            android:title="@string/dummy_menu_item"/>
-        <item
-            android:id="@+id/drawer_item_2"
-            android:icon="@drawable/ic_autorenew_black_24dp"
-            android:title="@string/dummy_menu_item"/>
-        <item
-            android:id="@+id/drawer_item_3"
-            android:icon="@drawable/ic_card_giftcard_black_24dp"
-            android:title="@string/dummy_menu_item"/>
-        <item
-            android:id="@+id/drawer_item_4"
-            android:icon="@drawable/ic_event_black_24dp"
-            android:title="@string/dummy_menu_item"/>
-        <item
-            android:id="@+id/drawer_item_5"
-            android:icon="@drawable/ic_perm_device_information_black_24dp"
-            android:title="@string/dummy_menu_item"/>
-        <item
-            android:id="@+id/drawer_item_6"
-            android:icon="@drawable/ic_stars_black_24dp"
-            android:title="@string/dummy_menu_item"/>
+            android:id="@+id/all_tours"
+            android:title="@string/all_tours"/>
     </group>
 </menu>

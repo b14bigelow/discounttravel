@@ -13,7 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.example.ysych.discounttravel.R;
+import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.fragments.FragmentCountry;
+import com.example.ysych.discounttravel.model.Country;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -24,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private int mNavItemId;
+    private NavigationView navigationView;
+    private List<Country> countries;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -31,25 +39,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        // listen for navigation events
+        navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.inflateHeaderView(R.layout.drawer_header);
+
+        try {
+            countries = HelperFactory.getHelper().getCountryDAO().queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for(Country country : countries){
+            navigationView.getMenu().add(0, country.getId(), 0, country.getTitle().toUpperCase());
+        }
 
         // load saved navigation state if present
         if (null == savedInstanceState) {
-            mNavItemId = R.id.drawer_item_1;
+            mNavItemId = R.id.all_tours;
         } else {
             mNavItemId = savedInstanceState.getInt(NAV_ITEM_ID);
         }
 
-        // listen for navigation events
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(this);
 
         // select the correct nav menu item
         navigationView.getMenu().findItem(mNavItemId).setChecked(true);
 
         // set up the hamburger icon to open and close the drawer
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open,
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open,
                 R.string.close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
@@ -57,20 +76,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigate(mNavItemId);
     }
 
-    private void navigate(final int itemId) {
+    private void navigate(int itemId) {
         // perform the actual navigation logic, updating the main content fragment etc
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment;
-        switch (itemId){
-            case 0:
-                fragment = new FragmentCountry();
-                break;
-            case 1:
-                fragment = new FragmentCountry();
-                break;
-            default:
-                fragment = new FragmentCountry();
-        }
+        Fragment fragment = new FragmentCountry();
+        Bundle bundle = new Bundle();
+        bundle.putLong(FragmentCountry.COUNTRY_CODE, itemId);
+        fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.content, fragment);
         fragmentTransaction.commit();
     }
@@ -80,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // update highlighted item in the navigation menu
         menuItem.setChecked(true);
         mNavItemId = menuItem.getItemId();
+        mToolbar.setTitle(menuItem.getTitle());
 
         // allow some time after closing the drawer before performing real navigation
         // so the user can see what is happening
