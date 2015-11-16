@@ -14,7 +14,10 @@ import com.example.ysych.discounttravel.model.Tours;
 import java.sql.SQLException;
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by ysych on 05.11.2015.
@@ -22,6 +25,10 @@ import retrofit.RestAdapter;
 public class GetToursService extends IntentService {
 
     public final static String TOURS_VERSION = "version";
+    LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(GetToursService.this);
+    SharedPreferences sharedPreferences;
+    ARIRetrofit ariRetrofit;
+    int currentVersion;
 
     public GetToursService() {
         super("GetToursService");
@@ -33,24 +40,57 @@ public class GetToursService extends IntentService {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(APIContract.DISCOUNT_SERVER_URL)
                 .build();
-        ARIRetrofit ariRetrofit = restAdapter.create(ARIRetrofit.class);
-        SharedPreferences sharedPreferences = getSharedPreferences(TOURS_VERSION, MODE_PRIVATE);
-        int currentVersion = sharedPreferences.getInt(TOURS_VERSION, 0);
+        ariRetrofit = restAdapter.create(ARIRetrofit.class);
+        sharedPreferences = getSharedPreferences(TOURS_VERSION, MODE_PRIVATE);
+        currentVersion = sharedPreferences.getInt(TOURS_VERSION, 0);
+        ariRetrofit.getCategories(1, new Callback<List<Country>>() {
+            @Override
+            public void success(List<Country> countries, Response response) {
+                try {
+                    for (Country category : countries) {
+                        HelperFactory.getHelper().getCountryDAO().createOrUpdate(category);
+                    }
+                    getTours();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
 
-        Tours tours = ariRetrofit.getTours(currentVersion);
-        List<Country> categories = ariRetrofit.getCategories(1);
-        try {
-            for(Tour tour : tours.getTours()){
-                HelperFactory.getHelper().getTourDAO().createOrUpdate(tour);
+            @Override
+            public void failure(RetrofitError error) {
+                if(currentVersion == 0){
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_FINISH_APP));
+                }
+                else {
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_ASK_USER));
+                }
             }
-            for (Country category : categories){
-                HelperFactory.getHelper().getCountryDAO().createOrUpdate(category);
+        });
+    }
+    void getTours(){
+        ariRetrofit.getTours(currentVersion, new Callback<Tours>() {
+            @Override
+            public void success(Tours tours, Response response) {
+                try {
+                    for (Tour tour : tours.getTours()) {
+                        if(tour.getState() == 1){
+                            HelperFactory.getHelper().getTourDAO().createOrUpdate(tour);
+                        }
+                        else if(tour.getState() == 0) {
+                            HelperFactory.getHelper().getTourDAO().deleteById(tour.getId());
+                        }
+                    }
+                    sharedPreferences.edit().putInt(TOURS_VERSION, tours.getVersion()).apply();
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_START_APP));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            sharedPreferences.edit().putInt(TOURS_VERSION, tours.getVersion()).apply();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-        localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION));
+
+            @Override
+            public void failure(RetrofitError error) {
+                localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_ASK_USER));
+            }
+        });
     }
 }

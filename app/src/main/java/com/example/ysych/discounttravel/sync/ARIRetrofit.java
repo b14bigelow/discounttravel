@@ -5,6 +5,7 @@ import com.example.ysych.discounttravel.model.Tours;
 
 import java.util.List;
 
+import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
@@ -14,11 +15,11 @@ import retrofit.http.Query;
 public interface ARIRetrofit {
 
     @GET(APIContract.INDEX_PHP)
-    Tours getTours(
-            @Query("version") int version
+    void getTours(
+            @Query("version") int version, Callback<Tours> callback
     );
     @GET(APIContract.INDEX_PHP)
-    List<Country> getCategories(
-            @Query("id_content") int category
+    void getCategories(
+            @Query("id_content") int category, Callback<List<Country>> callback
     );
 }

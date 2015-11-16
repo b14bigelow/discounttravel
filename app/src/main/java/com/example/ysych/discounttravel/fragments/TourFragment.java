@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,16 @@ public class TourFragment extends Fragment implements BaseSliderView.OnSliderCli
         Button callToOffice = (Button) view.findViewById(R.id.call_to_office);
         Button emailToOffice = (Button) view.findViewById(R.id.email_to_office);
         Button share = (Button) view.findViewById(R.id.share_to_office);
+
+
+        DisplayMetrics displaymetrics = getActivity().getResources().getDisplayMetrics();
+        float dpWidth = displaymetrics.widthPixels / displaymetrics.density;
+
+        ViewGroup.LayoutParams layoutParams = mSlider.getLayoutParams();
+        // TODO: 13.11.2015 FIND OUT WHAT THE FUCK
+        layoutParams.height = 2*(int) (dpWidth/1.6);
+        mSlider.setLayoutParams(layoutParams);
+
         callToOffice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,8 +95,6 @@ public class TourFragment extends Fragment implements BaseSliderView.OnSliderCli
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        tourDetailTitle.setText(tour.getTitle());
-        tourDetailText.setText(Html.fromHtml(tour.getIntrotext()));
 
         String thumbnailImage;
         if (tour.getType().equals(Tour.TYPE_IMAGE)) {
@@ -108,13 +117,20 @@ public class TourFragment extends Fragment implements BaseSliderView.OnSliderCli
                         .setOnSliderClickListener(this);
 
                 mSlider.addSlider(defaultSliderView);
+                if(allGalleryImages.length == 1){
+                    mSlider.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
+                    mSlider.stopAutoCycle();
+                }
             }
         }
-            mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-            mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-            mSlider.setDuration(2000);
+        mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        mSlider.setDuration(2000);
 
-            return view;
+        tourDetailTitle.setText(tour.getTitle());
+        tourDetailText.setText(Html.fromHtml(tour.getIntrotext()));
+
+        return view;
         }
 
         @Override

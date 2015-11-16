@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Discount Travel</string>
+    <string name="error_string">Ошибка</string>
+    <string name="ok_string">Оk</string>
+    <string name="exit_string">Выход</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="open">Open</string>
@@ -58,5 +61,8 @@
     <string name="jamaica">ЯМАЙКА</string>
     <string name="all_tours">ВСЕ ТУРЫ</string>
     <string name="drawer_menu_title">Меню</string>
+    <string name="tour_upload_error">Не удалось загрузить новые туры, продолжить без обновления?</string>
+    <string name="zero_version_error">При первом запуске приложение обновляет всю базу туров, необходимо устойчивае интернет соединение</string>
+
 
 </resources>

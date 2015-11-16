@@ -48,7 +48,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TourViewHolder>{
             thumbnailImage = (tours.get(position).getImages()).replace(".jpg","_M.jpg");
             Picasso.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
-                    .placeholder(R.drawable.discount_travel_logo)
+                    .placeholder(R.drawable.sample_image)
+                    .fit()
+                    .centerCrop()
                     .into(holder.tourPhoto);
         }
         else {
@@ -56,7 +58,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TourViewHolder>{
             thumbnailImage = (allGalleryImages[0]).replace(".jpg","_M.jpg");
             Picasso.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
-                    .placeholder(R.drawable.discount_travel_logo)
+                    .placeholder(R.drawable.sample_image)
+                    .fit()
+                    .centerCrop()
                     .into(holder.tourPhoto);
         }
         holder.tourRelativeLayout.setOnClickListener(new View.OnClickListener() {

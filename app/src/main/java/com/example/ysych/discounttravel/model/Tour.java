@@ -21,6 +21,11 @@ public class Tour {
     @Expose
     int id;
 
+    @DatabaseField(canBeNull = false, dataType = DataType.INTEGER, columnName = "state")
+    @SerializedName("state")
+    @Expose
+    int state;
+
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "catid")
     @SerializedName("catid")
     @Expose
@@ -69,6 +74,10 @@ public class Tour {
 
     public int getId() {
         return id;
+    }
+
+    public int getState() {
+        return state;
     }
 
     public String getCategory() {

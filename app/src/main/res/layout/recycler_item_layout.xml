@@ -12,9 +12,7 @@
         <ImageView
             android:id="@+id/item_layout_background_image"
             android:layout_width="match_parent"
-            android:scaleType="fitStart"
-            android:adjustViewBounds="true"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:contentDescription="@string/tour_photo" />
 
         <TextView

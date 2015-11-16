@@ -64,9 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        // select the correct nav menu item
-        navigationView.getMenu().findItem(mNavItemId).setChecked(true);
-
         // set up the hamburger icon to open and close the drawer
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open,
                 R.string.close);
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // update highlighted item in the navigation menu
         menuItem.setChecked(true);
         mNavItemId = menuItem.getItemId();
-        mToolbar.setTitle(menuItem.getTitle());
 
         // allow some time after closing the drawer before performing real navigation
         // so the user can see what is happening
