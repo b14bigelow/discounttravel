@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ysych.discounttravel.R;
-import com.example.ysych.discounttravel.adapters.RVAdapter;
+import com.example.ysych.discounttravel.adapters.RecyclerViewAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
 
@@ -49,7 +49,7 @@ public class FragmentCountry extends Fragment{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        RVAdapter adapter = new RVAdapter(tours, getContext());
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(tours, getContext());
         rv.setAdapter(adapter);
         return view;
     }

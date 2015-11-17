@@ -5,6 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ysych.discounttravel.R;
+import com.example.ysych.discounttravel.adapters.SlidesPagerAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
 import com.example.ysych.discounttravel.sync.APIContract;
@@ -48,6 +52,7 @@ public class TourFragment extends Fragment {
         Button emailToOffice = (Button) view.findViewById(R.id.email_to_office);
         Button share = (Button) view.findViewById(R.id.share_to_office);
         ImageView tourDetailImage = (ImageView) view.findViewById(R.id.tour_detail_image);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
         callToOffice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,24 +89,21 @@ public class TourFragment extends Fragment {
                 }
             }
         });
-
         String thumbnailImage;
         if (tour.getType().equals(Tour.TYPE_IMAGE)) {
             thumbnailImage = (tour.getImages()).replace(".jpg", "_M.jpg");
             Glide.with(this)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.sample_image)
-                    .centerCrop()
                     .into(tourDetailImage);
         } else {
             String[] allGalleryImages = (tour.getGallery()).split("///");
+            thumbnailImage = (allGalleryImages[0]).replace(".jpg", "_M.jpg");
             Glide.with(this)
-                    .load(APIContract.DISCOUNT_SERVER_URL + "/" + allGalleryImages[0])
+                    .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.sample_image)
-                    .centerCrop()
                     .into(tourDetailImage);
+            viewPager.setAdapter(new SlidesPagerAdapter(getChildFragmentManager(), allGalleryImages));
         }
 
         tourDetailTitle.setText(tour.getTitle());

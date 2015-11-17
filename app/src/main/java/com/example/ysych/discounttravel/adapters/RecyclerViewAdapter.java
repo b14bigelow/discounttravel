@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.activities.MainActivity;
 import com.example.ysych.discounttravel.fragments.TourFragment;
@@ -23,12 +24,12 @@ import java.util.List;
 /**
  * Created by ysych on 06.11.2015.
  */
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TourViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.TourViewHolder>{
 
     List<Tour> tours;
     Context context;
 
-    public RVAdapter(List<Tour> tours, Context context) {
+    public RecyclerViewAdapter(List<Tour> tours, Context context) {
         this.tours = tours;
         this.context = context;
     }
@@ -48,8 +49,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TourViewHolder>{
             thumbnailImage = (tours.get(position).getImages()).replace(".jpg","_M.jpg");
             Glide.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
-                    .placeholder(R.drawable.sample_image)
-                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.tourPhoto);
         }
         else {
@@ -57,8 +57,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TourViewHolder>{
             thumbnailImage = (allGalleryImages[0]).replace(".jpg","_M.jpg");
             Glide.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
-                    .placeholder(R.drawable.sample_image)
-                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.tourPhoto);
         }
         holder.tourRelativeLayout.setOnClickListener(new View.OnClickListener() {
