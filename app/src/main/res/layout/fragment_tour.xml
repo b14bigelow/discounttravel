@@ -1,51 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.v4.widget.NestedScrollView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.daimajia.slider.library.SliderLayout
-            android:id="@+id/slider"
+        <ImageView
+            android:id="@+id/tour_detail_image"
             android:layout_width="match_parent"
-            android:layout_height="1dp" />
-
-        <com.daimajia.slider.library.Indicators.PagerIndicator
-            android:id="@+id/custom_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"/>
-
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/call_to_office"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@string/call_to_office"/>
+                android:layout_weight="1"
+                android:text="@string/call_to_office" />
+
             <Button
                 android:id="@+id/email_to_office"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@string/email_to_office"/>
+                android:layout_weight="1"
+                android:text="@string/email_to_office" />
+
             <Button
                 android:id="@+id/share_to_office"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@string/share"/>
+                android:layout_weight="1"
+                android:text="@string/share" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/tour_detail_title"
             android:layout_width="match_parent"
@@ -57,9 +53,7 @@
             android:id="@+id/tour_detail_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"/>
-
-
+            android:padding="16dp" />
 
 
     </LinearLayout>

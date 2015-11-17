@@ -3,6 +3,7 @@ package com.example.ysych.discounttravel.activities;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final Handler mDrawerActionHandler = new Handler();
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private int mNavItemId;
     private NavigationView navigationView;
     private List<Country> countries;
@@ -42,15 +44,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        // listen for navigation events
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
+
         navigationView = (NavigationView) findViewById(R.id.navigation);
-        navigationView.inflateHeaderView(R.layout.drawer_header);
 
         try {
             countries = HelperFactory.getHelper().getCountryDAO().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         for(Country country : countries){
             navigationView.getMenu().add(0, country.getId(), 0, country.getTitle().toUpperCase());
         }
@@ -87,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(final MenuItem menuItem) {
         // update highlighted item in the navigation menu
-        menuItem.setChecked(true);
         mNavItemId = menuItem.getItemId();
+        mCollapsingToolbarLayout.setTitle(menuItem.getTitle());
 
         // allow some time after closing the drawer before performing real navigation
         // so the user can see what is happening

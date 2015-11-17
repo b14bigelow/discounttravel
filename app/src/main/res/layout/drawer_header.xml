@@ -4,13 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ExpandableListView
-        android:id="@+id/header_expandable_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:groupIndicator="@drawable/indicator"
-        android:background="@drawable/header_expandablelist_selector" />
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

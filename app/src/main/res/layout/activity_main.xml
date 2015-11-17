@@ -58,6 +58,10 @@
         android:layout_gravity="start"
         android:background="#2d2322"
         app:itemTextColor="#d8d2ce"
-        app:menu="@menu/drawer" />
+        app:menu="@menu/drawer">
+
+    <include layout="@layout/drawer_header"/>
+
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

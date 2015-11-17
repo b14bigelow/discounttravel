@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.activities.MainActivity;
 import com.example.ysych.discounttravel.fragments.TourFragment;
 import com.example.ysych.discounttravel.model.Tour;
 import com.example.ysych.discounttravel.sync.APIContract;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,20 +46,18 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.TourViewHolder>{
         String thumbnailImage;
         if(tours.get(position).getType().equals(Tour.TYPE_IMAGE)){
             thumbnailImage = (tours.get(position).getImages()).replace(".jpg","_M.jpg");
-            Picasso.with(context)
+            Glide.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
                     .placeholder(R.drawable.sample_image)
-                    .fit()
                     .centerCrop()
                     .into(holder.tourPhoto);
         }
         else {
             String[] allGalleryImages = (tours.get(position).getGallery()).split("///");
             thumbnailImage = (allGalleryImages[0]).replace(".jpg","_M.jpg");
-            Picasso.with(context)
+            Glide.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
                     .placeholder(R.drawable.sample_image)
-                    .fit()
                     .centerCrop()
                     .into(holder.tourPhoto);
         }

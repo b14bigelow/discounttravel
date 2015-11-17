@@ -6,17 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.daimajia.slider.library.Indicators.PagerIndicator;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
@@ -27,31 +25,29 @@ import java.sql.SQLException;
 /**
  * Created by ysych on 06.11.2015.
  */
-public class TourFragment extends Fragment implements BaseSliderView.OnSliderClickListener {
+public class TourFragment extends Fragment {
 
     Tour tour;
-    private SliderLayout mSlider;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tour, container, false);
 
+        Bundle bundle = getArguments();
+        int tourSiteId = bundle.getInt(Tour.TOUR_ID);
+        try {
+            tour = HelperFactory.getHelper().getTourDAO().queryForId(tourSiteId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         TextView tourDetailTitle = (TextView) view.findViewById(R.id.tour_detail_title);
         TextView tourDetailText = (TextView) view.findViewById(R.id.tour_detail_text);
-        mSlider = (SliderLayout) view.findViewById(R.id.slider);
         Button callToOffice = (Button) view.findViewById(R.id.call_to_office);
         Button emailToOffice = (Button) view.findViewById(R.id.email_to_office);
         Button share = (Button) view.findViewById(R.id.share_to_office);
-
-
-        DisplayMetrics displaymetrics = getActivity().getResources().getDisplayMetrics();
-        float dpWidth = displaymetrics.widthPixels / displaymetrics.density;
-
-        ViewGroup.LayoutParams layoutParams = mSlider.getLayoutParams();
-        // TODO: 13.11.2015 FIND OUT WHAT THE FUCK
-        layoutParams.height = 2*(int) (dpWidth/1.6);
-        mSlider.setLayoutParams(layoutParams);
+        ImageView tourDetailImage = (ImageView) view.findViewById(R.id.tour_detail_image);
 
         callToOffice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,59 +84,29 @@ public class TourFragment extends Fragment implements BaseSliderView.OnSliderCli
                 }
             }
         });
-        Bundle bundle = getArguments();
-        int tourSiteId = bundle.getInt(Tour.TOUR_ID);
-        try {
-            tour = HelperFactory.getHelper().getTourDAO().queryForId(tourSiteId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         String thumbnailImage;
         if (tour.getType().equals(Tour.TYPE_IMAGE)) {
             thumbnailImage = (tour.getImages()).replace(".jpg", "_M.jpg");
-            DefaultSliderView defaultSliderView = new DefaultSliderView(getContext());
-            defaultSliderView
-                    .image(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
-                    .setScaleType(BaseSliderView.ScaleType.Fit);
-            mSlider.addSlider(defaultSliderView);
-            mSlider.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
+            Glide.with(this)
+                    .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.sample_image)
+                    .centerCrop()
+                    .into(tourDetailImage);
         } else {
             String[] allGalleryImages = (tour.getGallery()).split("///");
-            DefaultSliderView defaultSliderView;
-            for (String allGalleryImage : allGalleryImages) {
-                defaultSliderView = new DefaultSliderView(getContext());
-                // initialize a SliderLayout
-                defaultSliderView
-                        .image(APIContract.DISCOUNT_SERVER_URL + "/" + (allGalleryImage).replace(".jpg", "_M.jpg"))
-                        .setScaleType(BaseSliderView.ScaleType.Fit)
-                        .setOnSliderClickListener(this);
-
-                mSlider.addSlider(defaultSliderView);
-                if(allGalleryImages.length == 1){
-                    mSlider.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
-                    mSlider.stopAutoCycle();
-                }
-            }
+            Glide.with(this)
+                    .load(APIContract.DISCOUNT_SERVER_URL + "/" + allGalleryImages[0])
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(R.drawable.sample_image)
+                    .centerCrop()
+                    .into(tourDetailImage);
         }
-        mSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mSlider.setDuration(2000);
 
         tourDetailTitle.setText(tour.getTitle());
         tourDetailText.setText(Html.fromHtml(tour.getIntrotext()));
 
         return view;
         }
-
-        @Override
-        public void onStop () {
-            mSlider.stopAutoCycle();
-            super.onStop();
-        }
-
-    @Override
-    public void onSliderClick(BaseSliderView baseSliderView) {
-
-    }
 }

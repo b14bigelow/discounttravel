@@ -30,6 +30,7 @@ public class FragmentCountry extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_country, container, false);
+
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
 
