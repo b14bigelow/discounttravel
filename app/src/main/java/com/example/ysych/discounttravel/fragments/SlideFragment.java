@@ -21,13 +21,11 @@ public class SlideFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_slider, container, false);
-        ImageView slideImage = (ImageView) view.findViewById(R.id.slide_image);
         Bundle bundle = getArguments();
-        String thumbnailImage = (bundle.getString("image")).replace(".jpg", "_M.jpg");
         Glide.with(this)
-                .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
+                .load(APIContract.DISCOUNT_SERVER_URL + "/" + bundle.getString("image"))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(slideImage);
+                .into((ImageView) view);
         return view;
     }
 }

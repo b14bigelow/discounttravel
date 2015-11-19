@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/order_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Имечко"/>
+    <EditText
+        android:id="@+id/order_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Телефонко"/>
+
+    <Button
+        android:id="@+id/order_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Не слать"/>
+
+    <Button
+        android:id="@+id/order_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Слать"/>
+
+</LinearLayout>

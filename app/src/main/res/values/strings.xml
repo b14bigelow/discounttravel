@@ -63,6 +63,12 @@
     <string name="drawer_menu_title">Меню</string>
     <string name="tour_upload_error">Не удалось загрузить новые туры, продолжить без обновления?</string>
     <string name="zero_version_error">При первом запуске приложение обновляет всю базу туров, необходимо устойчивае интернет соединение</string>
+    <string name="order_form">Отправить заявку</string>
+    <string name="order_from_app_sending">Отправка</string>
+    <string name="order_from_app_sending_letter">Шлем письмо</string>
+    <string name="order_letter_subject">Заявка с Android приложения Discount Travel</string>
+    <string name="developer_email">yuriy_sych@yahoo.com</string>
+    <string name="add_system_account">Для этой функции необходимо добавить аккаунт в систему</string>
 
 
 </resources>

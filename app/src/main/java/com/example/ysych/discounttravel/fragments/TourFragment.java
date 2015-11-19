@@ -1,28 +1,21 @@
 package com.example.ysych.discounttravel.fragments;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.adapters.SlidesPagerAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
-import com.example.ysych.discounttravel.sync.APIContract;
+import com.example.ysych.discounttravel.util.HeightWrappingViewPager;
 
 import java.sql.SQLException;
 
@@ -30,6 +23,10 @@ import java.sql.SQLException;
  * Created by ysych on 06.11.2015.
  */
 public class TourFragment extends Fragment {
+
+    public static final String BUNDLE_TOUR_NAME = "tourName";
+    public static final String PHONE_DIALOG_TAG = "phoneDialog";
+    public static final String EMAIL_DIALOG_TAG = "emailDialog";
 
     Tour tour;
 
@@ -40,6 +37,7 @@ public class TourFragment extends Fragment {
 
         Bundle bundle = getArguments();
         int tourSiteId = bundle.getInt(Tour.TOUR_ID);
+
         try {
             tour = HelperFactory.getHelper().getTourDAO().queryForId(tourSiteId);
         } catch (SQLException e) {
@@ -51,30 +49,24 @@ public class TourFragment extends Fragment {
         Button callToOffice = (Button) view.findViewById(R.id.call_to_office);
         Button emailToOffice = (Button) view.findViewById(R.id.email_to_office);
         Button share = (Button) view.findViewById(R.id.share_to_office);
-        ImageView tourDetailImage = (ImageView) view.findViewById(R.id.tour_detail_image);
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPager);
+        HeightWrappingViewPager viewPager = (HeightWrappingViewPager) view.findViewById(R.id.viewPager);
+
 
         callToOffice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    intent.setData(Uri.parse("tel:0445002125"));
-                    startActivity(intent);
-                }
+                DialPhoneDialogFragment dialog = new DialPhoneDialogFragment();
+                dialog.show(getChildFragmentManager(), PHONE_DIALOG_TAG);
             }
         });
         emailToOffice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("application/octet-stream");
-                if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    intent.setData(Uri.parse("discounttravel.info@gmail.com"));
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Письмо");
-                    intent.putExtra(Intent.EXTRA_TEXT, "hi jack!");
-                    startActivity(intent);
-                }
+                OrderDialogFragment dialog = new OrderDialogFragment();
+                Bundle bundle1 = new Bundle();
+                bundle1.putString(BUNDLE_TOUR_NAME, tour.getTitle());
+                dialog.setArguments(bundle1);
+                dialog.show(getChildFragmentManager(), EMAIL_DIALOG_TAG);
             }
         });
         share.setOnClickListener(new View.OnClickListener() {
@@ -83,29 +75,25 @@ public class TourFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Письмо");
-                    intent.putExtra(Intent.EXTRA_TEXT, "hi jack!");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, tour.getTitle());
+                    intent.putExtra(Intent.EXTRA_TEXT, tour.getIntrotext());
                     startActivity(intent);
                 }
             }
         });
-        String thumbnailImage;
-        if (tour.getType().equals(Tour.TYPE_IMAGE)) {
-            thumbnailImage = (tour.getImages()).replace(".jpg", "_M.jpg");
-            Glide.with(this)
-                    .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(tourDetailImage);
-        } else {
-            String[] allGalleryImages = (tour.getGallery()).split("///");
-            thumbnailImage = (allGalleryImages[0]).replace(".jpg", "_M.jpg");
-            Glide.with(this)
-                    .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(tourDetailImage);
-            viewPager.setAdapter(new SlidesPagerAdapter(getChildFragmentManager(), allGalleryImages));
-        }
 
+        String[] allGalleryImages;
+        if (tour.getType().equals(Tour.TYPE_IMAGE)) {
+            allGalleryImages = new String[1];
+            allGalleryImages[0] = (tour.getImages()).replace(".jpg", "_M.jpg");
+        } else {
+            String[] images = (tour.getGallery()).split("///");
+            allGalleryImages = new String[images.length];
+            for(int i = 0; i < allGalleryImages.length; i++){
+                allGalleryImages[i] = images[i].replace(".jpg", "_M.jpg");
+            }
+        }
+        viewPager.setAdapter(new SlidesPagerAdapter(getChildFragmentManager(), allGalleryImages));
         tourDetailTitle.setText(tour.getTitle());
         tourDetailText.setText(Html.fromHtml(tour.getIntrotext()));
 

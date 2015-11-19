@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by ysych on 05.11.2015.
  */
-public class FragmentCountry extends Fragment{
+public class CountryFragment extends Fragment{
 
     public final static String COUNTRY_CODE = "country";
 

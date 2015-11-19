@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/phone_office"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Office"/>
+
+    <Button
+        android:id="@+id/phone_kyivstar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kyivstar"/>
+
+    <Button
+        android:id="@+id/phone_mtc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MTC"/>
+
+    <Button
+        android:id="@+id/phone_life"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Life"/>
+
+    <Button
+        android:id="@+id/phone_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Никуда"/>
+
+</LinearLayout>
