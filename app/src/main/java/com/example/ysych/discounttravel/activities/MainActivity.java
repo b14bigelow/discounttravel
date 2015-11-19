@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onGroupExpand(int groupPosition) {
                 ViewGroup.LayoutParams layoutParams = expandableListView.getLayoutParams();
-                // FIXME: 19.11.2015 
+                // FIXME: 19.11.2015
                 layoutParams.height = expandableListView.getChildCount() *3* expandableListView.getHeight();
                 expandableListView.setLayoutParams(layoutParams);
                 expandableListView.refreshDrawableState();

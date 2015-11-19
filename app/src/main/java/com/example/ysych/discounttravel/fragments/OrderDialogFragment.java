@@ -29,6 +29,7 @@ import com.example.ysych.discounttravel.util.GMailOauthSender;
 public class OrderDialogFragment extends DialogFragment {
 
     private static final String AUTH_TOKEN_TYPE = "oauth2:https://mail.google.com/";
+    private static final String ACCOUNT_TYPE = "com.google";
 
     private String accountName;
     private String accountToken;
@@ -39,9 +40,11 @@ public class OrderDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         AccountManager accountManager = AccountManager.get(getActivity());
         Account[] userAccounts = accountManager.getAccounts();
-        for (Account account : userAccounts){
-            accountName = account.name;
-            accountManager.getAuthToken(account, AUTH_TOKEN_TYPE, null, getActivity(), new OnTokenAcquired(), null);
+        for(Account account : userAccounts){
+            if(account.type.equals(ACCOUNT_TYPE)){
+                accountName = account.name;
+                accountManager.getAuthToken(account, AUTH_TOKEN_TYPE, null, getActivity(), new OnTokenAcquired(), null);
+            }
         }
         activity = getActivity();
     }
