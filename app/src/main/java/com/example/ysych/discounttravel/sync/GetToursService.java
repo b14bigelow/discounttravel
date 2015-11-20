@@ -47,6 +47,8 @@ public class GetToursService extends IntentService {
             @Override
             public void success(List<Country> countries, Response response) {
                 try {
+                    List<Country> countryList = HelperFactory.getHelper().getCountryDAO().queryForAll();
+                    HelperFactory.getHelper().getCountryDAO().delete(countryList);
                     for (Country category : countries) {
                         HelperFactory.getHelper().getCountryDAO().createOrUpdate(category);
                     }

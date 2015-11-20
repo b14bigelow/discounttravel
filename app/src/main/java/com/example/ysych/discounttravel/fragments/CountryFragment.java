@@ -13,6 +13,7 @@ import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.adapters.RecyclerViewAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -40,7 +41,9 @@ public class CountryFragment extends Fragment{
         rv.setLayoutManager(llm);
         try {
             if(countryCode == R.id.all_tours){
-                tours = HelperFactory.getHelper().getTourDAO().queryForAll();
+                QueryBuilder<Tour, Integer> queryBuilder = HelperFactory.getHelper().getTourDAO().queryBuilder();
+                queryBuilder.setWhere(queryBuilder.where().not().eq(Tour.CAT_ID, 2));
+                tours = HelperFactory.getHelper().getTourDAO().query(queryBuilder.prepare());
             }
             else {
                 tours = HelperFactory.getHelper().getTourDAO().queryForEq(Tour.CAT_ID, countryCode);

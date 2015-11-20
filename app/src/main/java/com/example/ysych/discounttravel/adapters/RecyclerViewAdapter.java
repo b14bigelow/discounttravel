@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(final TourViewHolder holder, final int position) {
         holder.tourTitle.setText(tours.get(position).getTitle());
-        holder.tourText.setText(Html.fromHtml((tours.get(position).getIntrotext()).substring(0, 250) + "..."));
         String thumbnailImage;
         if(tours.get(position).getType().equals(Tour.TYPE_IMAGE)){
             thumbnailImage = (tours.get(position).getImages()).replace(".jpg","_M.jpg");
@@ -85,14 +83,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class TourViewHolder extends RecyclerView.ViewHolder {
         CardView tourRelativeLayout;
         TextView tourTitle;
-        TextView tourText;
         ImageView tourPhoto;
 
         TourViewHolder(View itemView) {
             super(itemView);
             tourRelativeLayout = (CardView)itemView.findViewById(R.id.item_layout_id);
             tourTitle = (TextView)itemView.findViewById(R.id.item_layout_title);
-            tourText = (TextView) itemView.findViewById(R.id.item_layout_text);
             tourPhoto = (ImageView)itemView.findViewById(R.id.item_layout_background_image);
         }
     }

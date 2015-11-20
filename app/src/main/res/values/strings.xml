@@ -69,6 +69,8 @@
     <string name="order_letter_subject">Заявка с Android приложения Discount Travel</string>
     <string name="developer_email">yuriy_sych@yahoo.com</string>
     <string name="add_system_account">Для этой функции необходимо добавить аккаунт в систему</string>
+    <string name="root_name">ROOT_NAME</string>
+    <string name="child_name">CHILD_NAME</string>
 
 
 </resources>

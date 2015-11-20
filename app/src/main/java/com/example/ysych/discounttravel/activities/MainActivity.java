@@ -21,6 +21,7 @@ import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.fragments.CountryFragment;
 import com.example.ysych.discounttravel.model.Country;
+import com.example.ysych.discounttravel.model.Tour;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,19 +60,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         List<Map<String, String>> groupData = new ArrayList<Map<String, String>>() {{
             add(new HashMap<String, String>() {{
-                put("ROOT_NAME", "Group 1");
+                put(getString(R.string.root_name), getString(R.string.drawer_menu_title));
             }});
         }};
         List<List<Map<String, String>>> listOfChildGroups = new ArrayList<>();
 
-        List<Map<String, String>> childGroupForFirstGroupRow = new ArrayList<Map<String, String>>(){{
-            add(new HashMap<String, String>() {{
-                put("CHILD_NAME", "child in group 1");
-            }});
-            add(new HashMap<String, String>() {{
-                put("CHILD_NAME", "child in group 1");
-            }});
-        }};
+        List<Map<String, String>> childGroupForFirstGroupRow = new ArrayList<>();
+        List<Tour> systemPages = new ArrayList<>();
+        try{
+            systemPages = HelperFactory.getHelper().getTourDAO().queryForEq(Tour.CAT_ID, 2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        for (Tour oneSystemPage : systemPages){
+            HashMap<String, String> child = new HashMap<>();
+            child.put(getResources().getString(R.string.child_name), oneSystemPage.getTitle().substring(0, 15));
+            childGroupForFirstGroupRow.add(child);
+        }
         listOfChildGroups.add(childGroupForFirstGroupRow);
 
         LinearLayout headerLayout = (LinearLayout) navigationView.getHeaderView(0);
@@ -80,8 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onGroupExpand(int groupPosition) {
                 ViewGroup.LayoutParams layoutParams = expandableListView.getLayoutParams();
-                // FIXME: 19.11.2015
-                layoutParams.height = expandableListView.getChildCount() *3* expandableListView.getHeight();
+                layoutParams.height = expandableListView.getAdapter().getCount() * expandableListView.getHeight() + expandableListView.getAdapter().getCount();
                 expandableListView.setLayoutParams(layoutParams);
                 expandableListView.refreshDrawableState();
             }
@@ -99,13 +103,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         expandableListView.setAdapter(new SimpleExpandableListAdapter(
                 this,
                 groupData,
-                android.R.layout.simple_expandable_list_item_1,
-                new String[]{"ROOT_NAME"},
-                new int[]{android.R.id.text1},
+                R.layout.expandablelistview_parent,
+                new String[]{getString(R.string.root_name)},
+                new int[]{R.id.expandable_list_view_parent},
                 listOfChildGroups,
-                android.R.layout.simple_expandable_list_item_2,
-                new String[]{"CHILD_NAME", "CHILD_NAME"},
-                new int[]{android.R.id.text1, android.R.id.text2}
+                R.layout.expandablelistview_child,
+                new String[]{getString(R.string.child_name), getString(R.string.child_name)},
+                new int[]{R.id.expandable_list_view_child, android.R.id.text2}
         ));
 
         try {
@@ -192,5 +196,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(NAV_ITEM_ID, mNavItemId);
+    }
+
+    public int GetPixelFromDips(float pixels) {
+        // Get the screen's density scale
+        final float scale = getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        return (int) (pixels * scale + 0.5f);
     }
 }
