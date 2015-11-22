@@ -11,10 +11,39 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.example.ysych.discounttravel.util.HeightWrappingViewPager
-            android:id="@+id/viewPager"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <com.example.ysych.discounttravel.util.HeightWrappingViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/chevron_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/chevron_left"
+                android:layout_marginLeft="@dimen/cardview_default_radius"
+                android:layout_marginStart="@dimen/cardview_default_radius"
+                android:contentDescription="@string/app_name" />
+
+            <ImageView
+                android:id="@+id/chevron_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/cardview_default_radius"
+                android:layout_marginEnd="@dimen/cardview_default_radius"
+                android:src="@drawable/chevron_right"
+                android:contentDescription="@string/app_name" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,23 +52,35 @@
 
             <Button
                 android:id="@+id/call_to_office"
+                android:singleLine="true"
                 android:layout_width="0dp"
+                style="@style/AppTheme"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_call_black_24dp"
+                android:drawableStart="@drawable/ic_call_black_24dp"
                 android:text="@string/call_to_office" />
 
             <Button
                 android:id="@+id/email_to_office"
+                android:singleLine="true"
                 android:layout_width="0dp"
+                style="@style/AppTheme"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:drawableStart="@drawable/ic_email_black_24dp"
                 android:text="@string/email_to_office" />
 
             <Button
                 android:id="@+id/share_to_office"
+                android:singleLine="true"
                 android:layout_width="0dp"
+                style="@style/AppTheme"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_share_black_24dp"
+                android:drawableStart="@drawable/ic_share_black_24dp"
                 android:text="@string/share" />
         </LinearLayout>
 

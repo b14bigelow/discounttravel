@@ -22,6 +22,7 @@ public class SlideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_slider, container, false);
         Bundle bundle = getArguments();
+
         Glide.with(this)
                 .load(APIContract.DISCOUNT_SERVER_URL + "/" + bundle.getString("image"))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)

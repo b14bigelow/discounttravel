@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ysych.discounttravel.R;
+import com.example.ysych.discounttravel.activities.MainActivity;
 import com.example.ysych.discounttravel.adapters.RecyclerViewAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
@@ -18,9 +19,6 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import java.sql.SQLException;
 import java.util.List;
 
-/**
- * Created by ysych on 05.11.2015.
- */
 public class CountryFragment extends Fragment{
 
     public final static String COUNTRY_CODE = "country";

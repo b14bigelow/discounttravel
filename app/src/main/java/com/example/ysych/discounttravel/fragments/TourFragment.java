@@ -6,12 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysych.discounttravel.R;
+import com.example.ysych.discounttravel.activities.MainActivity;
 import com.example.ysych.discounttravel.adapters.SlidesPagerAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
@@ -19,9 +22,6 @@ import com.example.ysych.discounttravel.util.HeightWrappingViewPager;
 
 import java.sql.SQLException;
 
-/**
- * Created by ysych on 06.11.2015.
- */
 public class TourFragment extends Fragment {
 
     public static final String BUNDLE_TOUR_NAME = "tourName";
@@ -30,10 +30,21 @@ public class TourFragment extends Fragment {
 
     Tour tour;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.support.v7.appcompat.R.id.up){
+            getActivity().onBackPressed();
+        }
+        return true;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tour, container, false);
+        final View view = inflater.inflate(R.layout.fragment_tour, container, false);
+
+        setHasOptionsMenu(true);
+        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = getArguments();
         int tourSiteId = bundle.getInt(Tour.TOUR_ID);
@@ -49,8 +60,24 @@ public class TourFragment extends Fragment {
         Button callToOffice = (Button) view.findViewById(R.id.call_to_office);
         Button emailToOffice = (Button) view.findViewById(R.id.email_to_office);
         Button share = (Button) view.findViewById(R.id.share_to_office);
-        HeightWrappingViewPager viewPager = (HeightWrappingViewPager) view.findViewById(R.id.viewPager);
+        final HeightWrappingViewPager viewPager = (HeightWrappingViewPager) view.findViewById(R.id.viewPager);
 
+        ImageView chevronRight = (ImageView) view.findViewById(R.id.chevron_right);
+        ImageView chevronLeft = (ImageView) view.findViewById(R.id.chevron_left);
+
+        chevronLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
+            }
+        });
+
+        chevronRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
+            }
+        });
 
         callToOffice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +120,12 @@ public class TourFragment extends Fragment {
                 allGalleryImages[i] = images[i].replace(".jpg", "_M.jpg");
             }
         }
+
+        if(allGalleryImages.length == 1){
+            chevronLeft.setImageDrawable(null);
+            chevronRight.setImageDrawable(null);
+        }
+
         viewPager.setAdapter(new SlidesPagerAdapter(getChildFragmentManager(), allGalleryImages));
         tourDetailTitle.setText(tour.getTitle());
         tourDetailText.setText(Html.fromHtml(tour.getIntrotext()));

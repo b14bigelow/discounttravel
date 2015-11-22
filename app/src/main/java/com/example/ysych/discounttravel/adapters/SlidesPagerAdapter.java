@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.View;
 
 import com.example.ysych.discounttravel.fragments.SlideFragment;
 
@@ -23,6 +24,7 @@ public class SlidesPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
         bundle.putString("image", slides[position]);
+        bundle.putInt("count", slides.length);
         Fragment fragment = new SlideFragment();
         fragment.setArguments(bundle);
         return fragment;
