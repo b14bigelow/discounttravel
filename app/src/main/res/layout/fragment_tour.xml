@@ -50,12 +50,12 @@
 
             <Button
                 android:id="@+id/call_to_office"
+                style="@style/OrdinaryButton"
                 android:singleLine="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="3dp"
-                android:textColor="#fff"
                 android:background="@drawable/orange_button"
                 android:drawableLeft="@drawable/ic_call_white_24dp"
                 android:drawableStart="@drawable/ic_call_white_24dp"
@@ -64,11 +64,11 @@
 
             <Button
                 android:id="@+id/email_to_office"
+                style="@style/OrdinaryButton"
                 android:singleLine="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="#fff"
                 android:background="@drawable/orange_button"
                 android:drawableLeft="@drawable/ic_email_white_24dp"
                 android:drawableStart="@drawable/ic_email_white_24dp"
@@ -77,11 +77,11 @@
 
             <Button
                 android:id="@+id/share_to_office"
+                style="@style/OrdinaryButton"
                 android:singleLine="true"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textColor="#fff"
                 android:drawableLeft="@drawable/ic_share_white_24dp"
                 android:drawableStart="@drawable/ic_share_white_24dp"
                 android:drawablePadding="2dp"
