@@ -5,9 +5,6 @@ import com.j256.ormlite.support.ConnectionSource;
 
 import java.sql.SQLException;
 
-/**
- * Created by ysych on 05.11.2015.
- */
 public class TourDAO extends BaseDaoImpl<Tour, Integer> {
 
     public TourDAO(ConnectionSource connectionSource,

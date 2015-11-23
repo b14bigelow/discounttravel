@@ -4,13 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
 import com.example.ysych.discounttravel.fragments.SlideFragment;
 
-/**
- * Created by nata on 11/17/15.
- */
 public class SlidesPagerAdapter extends FragmentPagerAdapter {
 
     String[] slides;

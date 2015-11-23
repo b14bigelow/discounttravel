@@ -19,9 +19,6 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by ysych on 05.11.2015.
- */
 public class GetToursService extends IntentService {
 
     public final static String TOURS_VERSION = "version";

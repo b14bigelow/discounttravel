@@ -13,9 +13,6 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-/**
- * Created by ysych on 05.11.2015.
- */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;

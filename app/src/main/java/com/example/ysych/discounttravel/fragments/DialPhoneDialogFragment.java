@@ -11,9 +11,6 @@ import android.widget.Button;
 
 import com.example.ysych.discounttravel.R;
 
-/**
- * Created by ysych on 18.11.2015.
- */
 public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragment{
 
     @Override
@@ -22,7 +19,7 @@ public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragme
         View view = inflater.inflate(R.layout.fragment_dialog_phone, container, false);
 
         final Dialog dialog = getDialog();
-        dialog.setTitle("Куда звоним?");
+        dialog.setTitle(R.string.phone_number_chooser);
 
         final Intent intent = new Intent();
         intent.setAction(Intent.ACTION_DIAL);
@@ -31,7 +28,7 @@ public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragme
         phoneOffice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.setData(Uri.parse("tel:+380444444444"));
+                intent.setData(Uri.parse(getString(R.string.city_phone_number)));
                 if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                     startActivity(intent);
                 }
@@ -41,7 +38,7 @@ public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragme
         phoneKyivstar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.setData(Uri.parse("tel:+380677777777"));
+                intent.setData(Uri.parse(getString(R.string.kyivstar_phone_number)));
                 if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                     startActivity(intent);
                 }            }
@@ -50,7 +47,7 @@ public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragme
         phoneMTC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.setData(Uri.parse("tel:+380500000000"));
+                intent.setData(Uri.parse(getString(R.string.mts_phone_number)));
                 if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                     startActivity(intent);
                 }            }
@@ -59,7 +56,7 @@ public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragme
         phoneLife.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.setData(Uri.parse("tel:+380633333333"));
+                intent.setData(Uri.parse(getString(R.string.life_phone_number)));
                 if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                     startActivity(intent);
                 }

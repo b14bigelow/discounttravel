@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ysych.discounttravel.R;
-import com.example.ysych.discounttravel.activities.MainActivity;
 import com.example.ysych.discounttravel.adapters.RecyclerViewAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;

@@ -4,9 +4,6 @@ import android.app.Application;
 
 import com.example.ysych.discounttravel.data.HelperFactory;
 
-/**
- * Created by ysych on 05.11.2015.
- */
 public class MyApplication extends Application {
 
     @Override

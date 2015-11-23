@@ -13,9 +13,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.sync.APIContract;
 
-/**
- * Created by nata on 11/17/15.
- */
 public class SlideFragment extends Fragment {
     @Nullable
     @Override

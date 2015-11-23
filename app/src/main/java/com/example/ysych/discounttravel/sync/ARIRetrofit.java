@@ -9,9 +9,6 @@ import retrofit.Callback;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
-/**
- * Created by nata on 11/7/15.
- */
 public interface ARIRetrofit {
 
     @GET(APIContract.INDEX_PHP)

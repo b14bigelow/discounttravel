@@ -6,9 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by ysych on 11.11.2015.
- */
 public class Tours {
 
     @SerializedName("version")

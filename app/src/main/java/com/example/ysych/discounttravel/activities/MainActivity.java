@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
@@ -38,29 +39,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final Handler mDrawerActionHandler = new Handler();
     private DrawerLayout mDrawerLayout;
 
-    public ActionBarDrawerToggle getmDrawerToggle() {
-        return mDrawerToggle;
-    }
-
     private ActionBarDrawerToggle mDrawerToggle;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private int mNavItemId;
-    private NavigationView navigationView;
     private List<Country> countries;
-    private Toolbar mToolbar;
     private ExpandableListView expandableListView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapse_toolbar);
 
-        navigationView = (NavigationView) findViewById(R.id.navigation);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
 
         List<Map<String, String>> groupData = new ArrayList<Map<String, String>>() {{
             add(new HashMap<String, String>() {{
@@ -140,7 +136,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.close);
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         mDrawerToggle.syncState();
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                if(getSupportActionBar() != null){
+                    if(getSupportFragmentManager().getBackStackEntryCount() > 0){
+                        mDrawerToggle.setDrawerIndicatorEnabled(false);
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    }
+                    else {
+                        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                        mDrawerToggle.setDrawerIndicatorEnabled(true);
+                    }
+                }
+            }
+        });
+
         navigate(mNavItemId);
     }
 
@@ -180,20 +201,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.support.v7.appcompat.R.id.home) {
             return mDrawerToggle.onOptionsItemSelected(item);
-        }
-        else if(item.getItemId() == android.support.v7.appcompat.R.id.up){
-            onBackPressed();
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        mDrawerToggle.setDrawerIndicatorEnabled(true);
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {

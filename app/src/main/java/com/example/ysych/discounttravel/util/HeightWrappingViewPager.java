@@ -5,9 +5,6 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
-/**
- * Created by ysych on 18.11.2015.
- */
 public class HeightWrappingViewPager extends ViewPager {
 
     public HeightWrappingViewPager(Context context) {

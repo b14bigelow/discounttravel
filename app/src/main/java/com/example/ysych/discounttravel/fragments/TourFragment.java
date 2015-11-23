@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ysych.discounttravel.R;
-import com.example.ysych.discounttravel.activities.MainActivity;
 import com.example.ysych.discounttravel.adapters.SlidesPagerAdapter;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.model.Tour;
@@ -30,21 +28,10 @@ public class TourFragment extends Fragment {
 
     Tour tour;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.support.v7.appcompat.R.id.up){
-            getActivity().onBackPressed();
-        }
-        return true;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tour, container, false);
-
-        setHasOptionsMenu(true);
-        ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle bundle = getArguments();
         int tourSiteId = bundle.getInt(Tour.TOUR_ID);
@@ -103,7 +90,7 @@ public class TourFragment extends Fragment {
                 intent.setType("text/plain");
                 if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                     intent.putExtra(Intent.EXTRA_SUBJECT, tour.getTitle());
-                    intent.putExtra(Intent.EXTRA_TEXT, tour.getIntrotext());
+                    intent.putExtra(Intent.EXTRA_TEXT, tour.getTitle());
                     startActivity(intent);
                 }
             }
