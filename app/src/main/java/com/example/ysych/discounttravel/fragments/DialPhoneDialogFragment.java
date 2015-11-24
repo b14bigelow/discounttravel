@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.ysych.discounttravel.R;
 
@@ -52,24 +53,32 @@ public class DialPhoneDialogFragment extends DialogFragment{
                     if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                         startActivity(intent);
                     }
+                    else noPhoneApp();
                 } else if (phoneKyivstar.isChecked()) {
                     intent.setData(Uri.parse(getString(R.string.kyivstar_phone_number)));
                     if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                         startActivity(intent);
                     }
+                    else noPhoneApp();
                 } else if (phoneMTC.isChecked()) {
                     intent.setData(Uri.parse(getString(R.string.mts_phone_number)));
                     if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                         startActivity(intent);
                     }
+                    else noPhoneApp();
                 } else if (phoneLife.isChecked()) {
                     intent.setData(Uri.parse(getString(R.string.life_phone_number)));
                     if (null != intent.resolveActivity(getActivity().getPackageManager())) {
                         startActivity(intent);
                     }
+                    else noPhoneApp();
                 }
             }
         });
         return view;
+    }
+    private void noPhoneApp(){
+        Toast.makeText(getActivity(), R.string.no_phone_app, Toast.LENGTH_SHORT).show();
+        dismiss();
     }
 }

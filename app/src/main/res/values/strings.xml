@@ -86,6 +86,7 @@
     <string name="order_comment">Комментарии</string>
     <string name="site_url">http://www.discount-travel.com.ua/</string>
     <string name="order_sent">Ваша заявка отправлена</string>
+    <string name="no_phone_app">Не установлено ни одного приложения для телефонных звонков</string>
 
 
 </resources>
