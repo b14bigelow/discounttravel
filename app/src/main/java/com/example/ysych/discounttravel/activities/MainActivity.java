@@ -22,6 +22,7 @@ import android.widget.SimpleExpandableListAdapter;
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.data.HelperFactory;
 import com.example.ysych.discounttravel.fragments.CountryFragment;
+import com.example.ysych.discounttravel.fragments.TourFragment;
 import com.example.ysych.discounttravel.model.Country;
 import com.example.ysych.discounttravel.model.Tour;
 
@@ -44,11 +45,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int mNavItemId;
     private List<Country> countries;
     private ExpandableListView expandableListView;
+    private List<Tour> systemPages;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentManager = getSupportFragmentManager();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         List<List<Map<String, String>>> listOfChildGroups = new ArrayList<>();
 
         List<Map<String, String>> childGroupForFirstGroupRow = new ArrayList<>();
-        List<Tour> systemPages = new ArrayList<>();
+        systemPages = new ArrayList<>();
         try{
             systemPages = HelperFactory.getHelper().getTourDAO().queryForEq(Tour.CAT_ID, 2);
         } catch (SQLException e) {
@@ -74,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         for (Tour oneSystemPage : systemPages){
             HashMap<String, String> child = new HashMap<>();
-            child.put(getResources().getString(R.string.child_name), oneSystemPage.getTitle().substring(0, 15));
+            child.put(getResources().getString(R.string.child_name), oneSystemPage.getTitle());
             childGroupForFirstGroupRow.add(child);
         }
         listOfChildGroups.add(childGroupForFirstGroupRow);
@@ -109,11 +114,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 listOfChildGroups,
                 R.layout.expandablelistview_child,
                 new String[]{getString(R.string.child_name), getString(R.string.child_name)},
-                new int[]{R.id.expandable_list_view_child, android.R.id.text2}
+                new int[]{R.id.expandable_list_view_child}
         ));
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putInt(Tour.TOUR_ID, systemPages.get(childPosition).getId());
+                Fragment systemPageFragment = new TourFragment();
+                systemPageFragment.setArguments(bundle);
+                cleanBackStack();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.content, systemPageFragment)
+                        .commit();
+                mCollapsingToolbarLayout.setTitle(systemPages.get(childPosition).getTitle());
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                return false;
+            }
+        });
+
 
         try {
-            countries = HelperFactory.getHelper().getCountryDAO().queryForAll();
+            countries = HelperFactory.getHelper().getCountryDAO().query(HelperFactory.getHelper().getCountryDAO().queryBuilder().where().not().eq(Country.COUNTRY_ID_FIELD, 2).prepare());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -146,11 +168,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mDrawerToggle.syncState();
 
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+        fragmentManager.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
                 if(getSupportActionBar() != null){
-                    if(getSupportFragmentManager().getBackStackEntryCount() > 0){
+                    if(fragmentManager.getBackStackEntryCount() > 0){
                         mDrawerToggle.setDrawerIndicatorEnabled(false);
                         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                     }
@@ -167,13 +189,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void navigate(int itemId) {
         // perform the actual navigation logic, updating the main content fragment etc
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        cleanBackStack();
         Fragment fragment = new CountryFragment();
         Bundle bundle = new Bundle();
         bundle.putLong(CountryFragment.COUNTRY_CODE, itemId);
         fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.content, fragment);
-        fragmentTransaction.commit();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.content, fragment)
+                .commit();
+
+        expandableListView.collapseGroup(0);
     }
 
     @Override
@@ -221,5 +247,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(NAV_ITEM_ID, mNavItemId);
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            expandableListView.setIndicatorBounds(expandableListView.getLeft(), 2 * expandableListView.getRight() - 40);
+        } else {
+            expandableListView.setIndicatorBoundsRelative(expandableListView.getLeft(), 2*expandableListView.getRight() - 40);
+        }
+    }
+    private void cleanBackStack(){
+        if(fragmentManager.getBackStackEntryCount() > 0){
+           for(int i = 0; i < fragmentManager.getBackStackEntryCount(); ++i){
+               fragmentManager.popBackStack();
+           }
+        }
     }
 }

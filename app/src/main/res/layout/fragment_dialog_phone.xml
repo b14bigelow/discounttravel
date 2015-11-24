@@ -1,36 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <Button
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="300dp"
+    android:padding="16dp">
+<RadioGroup
+    android:id="@+id/phone_radio_group"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RadioButton
         android:id="@+id/phone_office"
+        android:checked="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Office"/>
+        android:text="@string/city_number"/>
 
-    <Button
+    <RadioButton
         android:id="@+id/phone_kyivstar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kyivstar"/>
+        android:text="@string/kyivstar_number"/>
 
-    <Button
+    <RadioButton
         android:id="@+id/phone_mtc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MTC"/>
+        android:text="@string/mts_number"/>
 
-    <Button
+    <RadioButton
         android:id="@+id/phone_life"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Life"/>
+        android:text="@string/life_number"/>
+</RadioGroup>
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <Button
         android:id="@+id/phone_cancel"
-        android:layout_width="match_parent"
+        style="@style/BorderLessButton"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Никуда"/>
-
+        android:text="@string/exit_string"/>
+    <Button
+        style="@style/OrdinaryButton"
+        android:id="@+id/phone_call"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="@string/ok_string"/>
+</LinearLayout>
 </LinearLayout>

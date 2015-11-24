@@ -62,7 +62,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 bundle.putInt(Tour.TOUR_ID, tours.get(position).getId());
                 TourFragment tourFragment = new TourFragment();
                 tourFragment.setArguments(bundle);
-//                ((MainActivity) context).getmDrawerToggle().setDrawerIndicatorEnabled(false);
                 ((MainActivity) context)
                         .getSupportFragmentManager()
                         .beginTransaction()

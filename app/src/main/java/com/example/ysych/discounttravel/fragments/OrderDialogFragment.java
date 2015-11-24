@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.ysych.discounttravel.R;
 import com.example.ysych.discounttravel.util.GMailOauthSender;
@@ -41,6 +42,7 @@ public class OrderDialogFragment extends DialogFragment {
     private Dialog dialog;
     private EditText name;
     private EditText phone;
+    private EditText comments;
     private TextInputLayout nameLayout;
     private TextInputLayout phoneLayout;
 
@@ -72,6 +74,7 @@ public class OrderDialogFragment extends DialogFragment {
 
         name = (EditText) view.findViewById(R.id.order_name);
         phone = (EditText) view.findViewById(R.id.order_phone);
+        comments = (EditText) view.findViewById(R.id.order_comments);
 
         Button cancel = (Button) view.findViewById(R.id.order_cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +139,7 @@ public class OrderDialogFragment extends DialogFragment {
                         GMailOauthSender gMailOauthSender = new GMailOauthSender();
                         gMailOauthSender.sendMail(
                                 getString(R.string.order_letter_subject),
-                                bundle.getString(TourFragment.BUNDLE_TOUR_NAME) + "\n\n" + userName + "\n" + userPhone,
+                                bundle.getString(TourFragment.BUNDLE_TOUR_NAME) + "\n\n" + userName + "\n" + userPhone + "\n" + comments,
                                 accountName,
                                 accountToken,
                                 getString(R.string.developer_email)
@@ -152,6 +155,7 @@ public class OrderDialogFragment extends DialogFragment {
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                     progressDialog.dismiss();
                     dialog.dismiss();
+                    Toast.makeText(activity, R.string.order_sent, Toast.LENGTH_SHORT).show();
                 }
             };
             asyncTask.execute();

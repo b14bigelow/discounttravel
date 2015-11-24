@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/activity_horizontal_margin"
+    android:minWidth="300dp"
     android:orientation="vertical">
 
     <android.support.design.widget.TextInputLayout
@@ -12,6 +13,7 @@
 
         <EditText
             android:id="@+id/order_name"
+            style="@style/DiscountDialogTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/your_name"
@@ -34,6 +36,21 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/order_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/order_comment"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,8 +66,8 @@
             android:text="@string/exit_string" />
 
         <Button
+            style="@style/OrdinaryButton"
             android:id="@+id/order_send"
-            android:background="@drawable/orange_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

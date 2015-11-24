@@ -89,8 +89,8 @@ public class TourFragment extends Fragment {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    intent.putExtra(Intent.EXTRA_SUBJECT, tour.getTitle());
-                    intent.putExtra(Intent.EXTRA_TEXT, tour.getTitle());
+                    intent.putExtra(Intent.EXTRA_SUBJECT, tour.getTitle() + "\n" + getString(R.string.site_url));
+                    intent.putExtra(Intent.EXTRA_TEXT, tour.getTitle() + "\n" + getString(R.string.site_url));
                     startActivity(intent);
                 }
             }

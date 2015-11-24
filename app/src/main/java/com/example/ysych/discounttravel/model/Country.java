@@ -9,6 +9,8 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "categories")
 public class Country {
 
+    public final static String COUNTRY_ID_FIELD = "id";
+
     @DatabaseField(canBeNull = false, dataType = DataType.INTEGER, columnName = "id", id = true)
     @SerializedName("id")
     @Expose

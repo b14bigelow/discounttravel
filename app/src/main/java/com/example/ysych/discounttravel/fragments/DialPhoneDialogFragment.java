@@ -4,14 +4,21 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 import com.example.ysych.discounttravel.R;
 
-public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragment{
+public class DialPhoneDialogFragment extends DialogFragment{
+
+    private RadioButton phoneOffice;
+    private RadioButton phoneKyivstar;
+    private RadioButton phoneMTC;
+    private RadioButton phoneLife;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -21,52 +28,46 @@ public class DialPhoneDialogFragment extends android.support.v4.app.DialogFragme
         final Dialog dialog = getDialog();
         dialog.setTitle(R.string.phone_number_chooser);
 
-        final Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_DIAL);
+        phoneOffice = (RadioButton) view.findViewById(R.id.phone_office);
+        phoneKyivstar = (RadioButton) view.findViewById(R.id.phone_kyivstar);
+        phoneMTC = (RadioButton) view.findViewById(R.id.phone_mtc);
+        phoneLife = (RadioButton) view.findViewById(R.id.phone_life);
 
-        Button phoneOffice = (Button) view.findViewById(R.id.phone_office);
-        phoneOffice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.setData(Uri.parse(getString(R.string.city_phone_number)));
-                if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    startActivity(intent);
-                }
-            }
-        });
-        Button phoneKyivstar = (Button) view.findViewById(R.id.phone_kyivstar);
-        phoneKyivstar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.setData(Uri.parse(getString(R.string.kyivstar_phone_number)));
-                if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    startActivity(intent);
-                }            }
-        });
-        Button phoneMTC = (Button) view.findViewById(R.id.phone_mtc);
-        phoneMTC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.setData(Uri.parse(getString(R.string.mts_phone_number)));
-                if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    startActivity(intent);
-                }            }
-        });
-        Button phoneLife = (Button) view.findViewById(R.id.phone_life);
-        phoneLife.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent.setData(Uri.parse(getString(R.string.life_phone_number)));
-                if (null != intent.resolveActivity(getActivity().getPackageManager())) {
-                    startActivity(intent);
-                }
-            }
-        });
         Button phoneCancel = (Button) view.findViewById(R.id.phone_cancel);
         phoneCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+            }
+        });
+
+        Button phoneCall = (Button) view.findViewById(R.id.phone_call);
+        phoneCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_DIAL);
+                if (phoneOffice.isChecked()) {
+                    intent.setData(Uri.parse(getString(R.string.city_phone_number)));
+                    if (null != intent.resolveActivity(getActivity().getPackageManager())) {
+                        startActivity(intent);
+                    }
+                } else if (phoneKyivstar.isChecked()) {
+                    intent.setData(Uri.parse(getString(R.string.kyivstar_phone_number)));
+                    if (null != intent.resolveActivity(getActivity().getPackageManager())) {
+                        startActivity(intent);
+                    }
+                } else if (phoneMTC.isChecked()) {
+                    intent.setData(Uri.parse(getString(R.string.mts_phone_number)));
+                    if (null != intent.resolveActivity(getActivity().getPackageManager())) {
+                        startActivity(intent);
+                    }
+                } else if (phoneLife.isChecked()) {
+                    intent.setData(Uri.parse(getString(R.string.life_phone_number)));
+                    if (null != intent.resolveActivity(getActivity().getPackageManager())) {
+                        startActivity(intent);
+                    }
+                }
             }
         });
         return view;

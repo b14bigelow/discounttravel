@@ -78,7 +78,14 @@
     <string name="kyivstar_phone_number">tel:+380685476060</string>
     <string name="mts_phone_number">tel:+380660225627</string>
     <string name="life_phone_number">tel:+380631590027</string>
-    <string name="phone_number_chooser">Выберите подходящий номер</string>
+    <string name="phone_number_chooser">Операторы</string>
+    <string name="city_number">Городской</string>
+    <string name="kyivstar_number">Kyivstar</string>
+    <string name="mts_number">MTC</string>
+    <string name="life_number">Life</string>
+    <string name="order_comment">Комментарии</string>
+    <string name="site_url">http://www.discount-travel.com.ua/</string>
+    <string name="order_sent">Ваша заявка отправлена</string>
 
 
 </resources>

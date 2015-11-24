@@ -28,7 +28,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/chevron_left"
-                android:background="@color/black_transparent"
                 android:contentDescription="@string/app_name" />
 
             <ImageView
@@ -38,7 +37,6 @@
                 android:layout_centerInParent="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:background="@color/black_transparent"
                 android:src="@drawable/chevron_right"
                 android:contentDescription="@string/app_name" />
         </RelativeLayout>
@@ -55,11 +53,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="3dp"
-                android:background="@drawable/orange_button"
-                android:drawableLeft="@drawable/ic_call_white_24dp"
-                android:drawableStart="@drawable/ic_call_white_24dp"
-                android:drawablePadding="2dp"
                 android:text="@string/call_to_office" />
 
             <Button
@@ -69,10 +62,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/orange_button"
-                android:drawableLeft="@drawable/ic_email_white_24dp"
-                android:drawableStart="@drawable/ic_email_white_24dp"
-                android:drawablePadding="2dp"
                 android:text="@string/email_to_office" />
 
             <Button
@@ -82,9 +71,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:drawableLeft="@drawable/ic_share_white_24dp"
-                android:drawableStart="@drawable/ic_share_white_24dp"
-                android:drawablePadding="2dp"
                 android:text="@string/share" />
         </LinearLayout>
 
