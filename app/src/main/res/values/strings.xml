@@ -87,6 +87,8 @@
     <string name="site_url">http://www.discount-travel.com.ua/</string>
     <string name="order_sent">Ваша заявка отправлена</string>
     <string name="no_phone_app">Не установлено ни одного приложения для телефонных звонков</string>
+    <string name="hit_back_again">Для выхода нажмите кнопку \"Назад\" еще раз</string>
+    <string name="order_not_sent">Заявка не отправлена, проверьте интернет соединение</string>
 
 
 </resources>

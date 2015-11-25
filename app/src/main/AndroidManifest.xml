@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ysych.discounttravel" >
+    package="com.android.ysych.discounttravel" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".util.MyApplication"
+        android:name="com.androidapp.ysych.discounttravel.util.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
 
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.androidapp.ysych.discounttravel.activities.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme">
@@ -29,11 +30,11 @@
 
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="com.androidapp.ysych.discounttravel.activities.MainActivity"
             android:label="@string/app_name" >
         </activity>
 
-        <service android:name=".sync.GetToursService" />
+        <service android:name="com.androidapp.ysych.discounttravel.sync.GetToursService" />
 
     </application>
 
