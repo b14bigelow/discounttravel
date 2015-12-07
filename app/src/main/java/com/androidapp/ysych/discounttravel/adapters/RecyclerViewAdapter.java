@@ -41,7 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.tourTitle.setText(tours.get(position).getTitle());
         String thumbnailImage;
         if(tours.get(position).getType().equals(Tour.TYPE_IMAGE)){
-            thumbnailImage = (tours.get(position).getImages()).replace(".jpg","_M.jpg");
+            thumbnailImage = ((MainActivity) context).downloadableImageSize((tours.get(position).getImages()));
             Glide.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -49,7 +49,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
         else {
             String[] allGalleryImages = (tours.get(position).getGallery()).split("///");
-            thumbnailImage = (allGalleryImages[0]).replace(".jpg","_M.jpg");
+            thumbnailImage = ((MainActivity) context).downloadableImageSize(allGalleryImages[0]);
             Glide.with(context)
                     .load(APIContract.DISCOUNT_SERVER_URL + "/" + thumbnailImage)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)

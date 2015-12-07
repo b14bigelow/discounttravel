@@ -2,7 +2,6 @@ package com.androidapp.ysych.discounttravel.sync;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.androidapp.ysych.discounttravel.activities.SplashActivity;
@@ -10,6 +9,7 @@ import com.androidapp.ysych.discounttravel.data.HelperFactory;
 import com.androidapp.ysych.discounttravel.model.Country;
 import com.androidapp.ysych.discounttravel.model.Tour;
 import com.androidapp.ysych.discounttravel.model.Tours;
+import com.androidapp.ysych.discounttravel.model.Version;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -21,11 +21,9 @@ import retrofit.client.Response;
 
 public class GetToursService extends IntentService {
 
-    public final static String TOURS_VERSION = "version";
     LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(GetToursService.this);
-    SharedPreferences sharedPreferences;
     ARIRetrofit ariRetrofit;
-    int currentVersion;
+    Version currentVersion;
 
     public GetToursService() {
         super("GetToursService");
@@ -34,12 +32,22 @@ public class GetToursService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        try {
+            if(HelperFactory.getHelper().getVersionDAO().queryForAll().size() == 0){
+                currentVersion = new Version();
+                currentVersion.setVersion(0);
+            }
+            else {
+                currentVersion = HelperFactory.getHelper().getVersionDAO().queryForAll().get(0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(APIContract.DISCOUNT_SERVER_URL)
                 .build();
         ariRetrofit = restAdapter.create(ARIRetrofit.class);
-        sharedPreferences = getSharedPreferences(TOURS_VERSION, MODE_PRIVATE);
-        currentVersion = sharedPreferences.getInt(TOURS_VERSION, 0);
         ariRetrofit.getCategories(1, new Callback<List<Country>>() {
             @Override
             public void success(List<Country> countries, Response response) {
@@ -57,17 +65,17 @@ public class GetToursService extends IntentService {
 
             @Override
             public void failure(RetrofitError error) {
-                if(currentVersion == 0){
-                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_FINISH_APP));
+                if(currentVersion.getVersion() == 0){
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.ACTION_FINISH_APP));
                 }
                 else {
-                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_ASK_USER));
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.ACTION_ASK_USER));
                 }
             }
         });
     }
     void getTours(){
-        ariRetrofit.getTours(currentVersion, new Callback<Tours>() {
+        ariRetrofit.getTours(currentVersion.getVersion(), new Callback<Tours>() {
             @Override
             public void success(Tours tours, Response response) {
                 try {
@@ -79,8 +87,9 @@ public class GetToursService extends IntentService {
                             HelperFactory.getHelper().getTourDAO().deleteById(tour.getId());
                         }
                     }
-                    sharedPreferences.edit().putInt(TOURS_VERSION, tours.getVersion()).apply();
-                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_START_APP));
+                    currentVersion.setVersion(tours.getVersion());
+                    HelperFactory.getHelper().getVersionDAO().createOrUpdate(currentVersion);
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.ACTION_START_APP));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -88,7 +97,12 @@ public class GetToursService extends IntentService {
 
             @Override
             public void failure(RetrofitError error) {
-                localBroadcastManager.sendBroadcast(new Intent(SplashActivity.GET_TOURS_RECEIVER_ACTION_ASK_USER));
+                if(currentVersion.getVersion() == 0){
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.ACTION_FINISH_APP));
+                }
+                else {
+                    localBroadcastManager.sendBroadcast(new Intent(SplashActivity.ACTION_ASK_USER));
+                }
             }
         });
     }

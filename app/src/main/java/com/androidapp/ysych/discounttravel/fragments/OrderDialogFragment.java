@@ -57,13 +57,13 @@ public class OrderDialogFragment extends DialogFragment {
                 accountManager.getAuthToken(account, AUTH_TOKEN_TYPE, null, getActivity(), new OnTokenAcquired(), null);
             }
         }
-        activity = getActivity();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dialog_order, container, false);
 
+        activity = getActivity();
         bundle = getArguments();
 
         dialog = getDialog();

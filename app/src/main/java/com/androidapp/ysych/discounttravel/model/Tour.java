@@ -53,6 +53,11 @@ public class Tour {
     @Expose
     String images;
 
+    @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "video")
+    @SerializedName("video")
+    @Expose
+    String video;
+
     @DatabaseField(canBeNull = false, dataType = DataType.STRING, columnName = "gallery")
     @SerializedName("gallery")
     @Expose

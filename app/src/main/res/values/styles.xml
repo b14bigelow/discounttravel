@@ -48,4 +48,7 @@
         <item name="android:textSize">14sp</item>
     </style>
     <style name="ButtonBarButton" />
+    <style name="WhiteOptionsMenuIcon" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">#ffffff</item>
+    </style>
 </resources>

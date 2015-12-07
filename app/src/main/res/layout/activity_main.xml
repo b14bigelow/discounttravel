@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#ef8c00"
+            app:popupTheme="@style/WhiteOptionsMenuIcon"
             app:layout_collapseMode="pin"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:titleTextColor="@android:color/white" />

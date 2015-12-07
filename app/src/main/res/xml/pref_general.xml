@@ -1,0 +1,9 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="big_image_checkbox"
+        android:title="@string/pref_title_big_images"
+        android:summary="@string/pref_big_images"
+        android:defaultValue="false" />
+
+</PreferenceScreen>

@@ -16,9 +16,9 @@ import com.androidapp.ysych.discounttravel.sync.GetToursService;
 
 public class SplashActivity extends Activity {
 
-    public static String GET_TOURS_RECEIVER_ACTION_START_APP = "startapp";
-    public static String GET_TOURS_RECEIVER_ACTION_FINISH_APP = "finishapp";
-    public static String GET_TOURS_RECEIVER_ACTION_ASK_USER = "askuser";
+    public static String ACTION_START_APP = "startapp";
+    public static String ACTION_FINISH_APP = "finishapp";
+    public static String ACTION_ASK_USER = "askuser";
     GetToursServiceReceiver getToursServiceReceiver;
 
     @Override
@@ -32,9 +32,9 @@ public class SplashActivity extends Activity {
         super.onStart();
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(GET_TOURS_RECEIVER_ACTION_ASK_USER);
-        intentFilter.addAction(GET_TOURS_RECEIVER_ACTION_START_APP);
-        intentFilter.addAction(GET_TOURS_RECEIVER_ACTION_FINISH_APP);
+        intentFilter.addAction(ACTION_ASK_USER);
+        intentFilter.addAction(ACTION_START_APP);
+        intentFilter.addAction(ACTION_FINISH_APP);
         getToursServiceReceiver = new GetToursServiceReceiver();
         LocalBroadcastManager.getInstance(this).registerReceiver(getToursServiceReceiver, intentFilter);
 
@@ -52,20 +52,20 @@ public class SplashActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(GET_TOURS_RECEIVER_ACTION_START_APP)){
-                Intent intent1 = new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent1);
+            if(intent.getAction().equals(ACTION_START_APP)){
+                Intent intentStartMainActivity = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intentStartMainActivity);
                 finish();
             }
-            else if(intent.getAction().equals(GET_TOURS_RECEIVER_ACTION_ASK_USER)){
+            else if(intent.getAction().equals(ACTION_ASK_USER)){
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SplashActivity.this, R.style.CustomDialogTheme);
                 alertDialogBuilder.setMessage(R.string.tour_upload_error);
                 alertDialogBuilder.setTitle(R.string.error_string);
                 alertDialogBuilder.setPositiveButton(R.string.ok_string, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent1 = new Intent(SplashActivity.this, MainActivity.class);
-                        startActivity(intent1);
+                        Intent intentStartMainActivity = new Intent(SplashActivity.this, MainActivity.class);
+                        startActivity(intentStartMainActivity);
                         finish();
                     }
                 });
@@ -80,7 +80,7 @@ public class SplashActivity extends Activity {
                     alertDialogBuilder.create().show();
                 }
             }
-            else if(intent.getAction().equals(GET_TOURS_RECEIVER_ACTION_FINISH_APP)){
+            else if(intent.getAction().equals(ACTION_FINISH_APP)){
                 Toast.makeText(SplashActivity.this, R.string.zero_version_error, Toast.LENGTH_LONG).show();
                 finish();
             }

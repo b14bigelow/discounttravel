@@ -1,0 +1,44 @@
+<resources>
+    <string name="title_activity_settings">Настройки</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">Основные</string>
+
+    <string name="pref_title_big_images">Загружать большие картинки</string>
+    <string name="pref_big_images">Качество картинок будет лучше, но возрастет потребление интернет трафика</string>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Синхронизация</string>
+
+    <string name="pref_title_sync_frequency">Частота синхронизации</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>3 часа</item>
+        <item>6 часов</item>
+        <item>Никогда</item>
+    </string-array>
+    <string-array name="pref_sync_frequency_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">Настройки аккаунта в системе</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Оповещения</string>
+
+    <string name="pref_title_new_message_notifications">Новоти и новые туры</string>
+
+    <string name="pref_title_ringtone">Звук</string>
+    <string name="pref_ringtone_silent">Тихо</string>
+
+    <string name="pref_title_vibrate">Вибрация</string>
+</resources>

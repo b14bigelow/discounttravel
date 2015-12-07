@@ -1,9 +1,14 @@
 package com.androidapp.ysych.discounttravel.fragments;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.ysych.discounttravel.R;
+import com.androidapp.ysych.discounttravel.activities.MainActivity;
 import com.androidapp.ysych.discounttravel.adapters.SlidesPagerAdapter;
 import com.androidapp.ysych.discounttravel.data.HelperFactory;
 import com.androidapp.ysych.discounttravel.model.Tour;
@@ -25,6 +31,7 @@ public class TourFragment extends Fragment {
     public static final String BUNDLE_TOUR_NAME = "tourName";
     public static final String PHONE_DIALOG_TAG = "phoneDialog";
     public static final String EMAIL_DIALOG_TAG = "emailDialog";
+    private static final int PERMISSIONS_REQUEST_ACCOUNTS = 113;
 
     Tour tour;
 
@@ -76,11 +83,7 @@ public class TourFragment extends Fragment {
         emailToOffice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderDialogFragment dialog = new OrderDialogFragment();
-                Bundle bundle1 = new Bundle();
-                bundle1.putString(BUNDLE_TOUR_NAME, tour.getTitle());
-                dialog.setArguments(bundle1);
-                dialog.show(getChildFragmentManager(), EMAIL_DIALOG_TAG);
+                checkVersionPermissions();
             }
         });
         share.setOnClickListener(new View.OnClickListener() {
@@ -99,12 +102,12 @@ public class TourFragment extends Fragment {
         String[] allGalleryImages;
         if (tour.getType().equals(Tour.TYPE_IMAGE)) {
             allGalleryImages = new String[1];
-            allGalleryImages[0] = (tour.getImages()).replace(".jpg", "_M.jpg");
+            allGalleryImages[0] = ((MainActivity) getActivity()).downloadableImageSize(tour.getImages());
         } else {
             String[] images = (tour.getGallery()).split("///");
             allGalleryImages = new String[images.length];
             for(int i = 0; i < allGalleryImages.length; i++){
-                allGalleryImages[i] = images[i].replace(".jpg", "_M.jpg");
+                allGalleryImages[i] = ((MainActivity) getActivity()).downloadableImageSize(images[i]);
             }
         }
 
@@ -118,5 +121,49 @@ public class TourFragment extends Fragment {
         tourDetailText.setText(Html.fromHtml(tour.getIntrotext()));
 
         return view;
+    }
+
+    private void checkVersionPermissions(){
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1){
+
+                // Here, thisActivity is the current activity
+            if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+                // Should we show an explanation?
+                if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.GET_ACCOUNTS)) {
+                    ((MainActivity) getActivity()).showSnack(getString(R.string.get_account));
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.GET_ACCOUNTS}, PERMISSIONS_REQUEST_ACCOUNTS);
+                }
+            }
+
+            else openEmailDialog();
         }
+        else {
+            openEmailDialog();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCOUNTS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openEmailDialog();
+                } else {
+                    ((MainActivity) getActivity()).showSnack(getString(R.string.get_account));
+                }
+            }
+        }
+    }
+    private void openEmailDialog(){
+        OrderDialogFragment dialog = new OrderDialogFragment();
+        Bundle bundle1 = new Bundle();
+        bundle1.putString(BUNDLE_TOUR_NAME, tour.getTitle());
+        dialog.setArguments(bundle1);
+        dialog.show(getChildFragmentManager(), EMAIL_DIALOG_TAG);
+    }
 }

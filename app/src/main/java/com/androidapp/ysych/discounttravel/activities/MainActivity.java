@@ -1,9 +1,11 @@
 package com.androidapp.ysych.discounttravel.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +29,7 @@ import android.widget.TextView;
 import com.android.ysych.discounttravel.R;
 import com.androidapp.ysych.discounttravel.data.HelperFactory;
 import com.androidapp.ysych.discounttravel.fragments.CountryFragment;
-import com.androidapp.ysych.discounttravel.fragments.TourFragment;
+import com.androidapp.ysych.discounttravel.fragments.SystemPageFragment;
 import com.androidapp.ysych.discounttravel.model.Country;
 import com.androidapp.ysych.discounttravel.model.Tour;
 
@@ -52,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager fragmentManager;
     private Toolbar mToolbar;
     private CoordinatorLayout mCoordinatorLayout;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem mi = menu.add(0, 1, 0, getString(R.string.action_settings));
+        mi.setIntent(new Intent(this, SettingsActivity.class));
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -126,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putInt(Tour.TOUR_ID, systemPages.get(childPosition).getId());
-                Fragment systemPageFragment = new TourFragment();
+                Fragment systemPageFragment = new SystemPageFragment();
                 systemPageFragment.setArguments(bundle);
                 cleanBackStack();
                 fragmentManager.beginTransaction()
@@ -293,5 +303,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView textView = (TextView) snackView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
         snackbar.show();
+    }
+
+    public String downloadableImageSize(String loadPath){
+        boolean isBigImagesChecked = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("big_image_checkbox", false);
+        if(isBigImagesChecked){
+            return loadPath.replace(".jpg","_L.jpg");
+        }
+        else return loadPath.replace(".jpg","_M.jpg");
     }
 }

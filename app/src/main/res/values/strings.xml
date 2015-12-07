@@ -4,10 +4,10 @@
     <string name="ok_string">Оk</string>
     <string name="exit_string">Выход</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_splash">Заставка</string>
     <string name="dummy_menu_item">Пункт меню</string>
     <string name="tour_photo">Фото тура</string>
     <string name="call_to_office">Позвонить</string>
@@ -89,6 +89,7 @@
     <string name="no_phone_app">Не установлено ни одного приложения для телефонных звонков</string>
     <string name="hit_back_again">Для выхода нажмите кнопку \"Назад\" еще раз</string>
     <string name="order_not_sent">Заявка не отправлена, проверьте интернет соединение</string>
+    <string name="get_account">Для отправки необходим доступ к Вашему e-mail и Интернету</string>
 
 
 </resources>
