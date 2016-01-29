@@ -1,7 +1,10 @@
 package com.androidapp.ysych.discounttravel.activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,10 +24,31 @@ public class SplashActivity extends Activity {
     public static String ACTION_ASK_USER = "askuser";
     GetToursServiceReceiver getToursServiceReceiver;
 
+
+    // Constants
+    // The authority for the sync adapter's content provider
+    public static final String AUTHORITY = "com.android.ysych.discounttravel";
+    // An account type, in the form of a domain name
+    public static final String ACCOUNT_TYPE = "discounttravel.com";
+    // The account name
+    public static final String ACCOUNT = "dummyaccount";
+    // Instance fields
+    ContentResolver mResolver;
+    Account mAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Account newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
+        AccountManager accountManager = (AccountManager) this.getSystemService(ACCOUNT_SERVICE);
+        accountManager.addAccountExplicitly(newAccount, null, null);
+        mResolver = getContentResolver();
+        ContentResolver.addPeriodicSync(
+                mAccount,
+                AUTHORITY,
+                Bundle.EMPTY,
+                300);
     }
 
     @Override

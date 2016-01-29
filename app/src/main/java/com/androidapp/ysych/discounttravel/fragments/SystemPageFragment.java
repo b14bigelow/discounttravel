@@ -36,7 +36,7 @@ public class SystemPageFragment extends Fragment {
 
         WebView pageDetailText = (WebView) view.findViewById(R.id.page_detail_text);
         pageDetailText.getSettings().setJavaScriptEnabled(true);
-        pageDetailText.loadData("<html><body>" + page.getIntrotext() + "</body></html>", "text/html", "utf-8");
+        pageDetailText.loadDataWithBaseURL(null, page.getIntrotext(), "text/html", "UTF-8", null);
 
         return view;
     }

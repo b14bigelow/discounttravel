@@ -15,3 +15,26 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-libraryjars libs
+
+-dontwarn com.sun.mail.**
+-dontwarn javax.activation.**
+-dontwarn org.apache.harmony.awt.**
+-dontwarn android.support.**
+-dontwarn com.google.code.**
+-dontwarn retrofit.**
+-dontwarn com.j256.**
+-dontwarn com.squareup.**
+-dontwarn com.github.bumptech.**
+-dontwarn com.parse**
+
+-keep class com.sun.mail.** {*;}
+-keep class javax.activation.** {*;}
+-keep class org.apache.harmony.awt.** {*;}
+-keep class android.support.** {*;}
+-keep class com.google.code.** {*;}
+-keep class retrofit.** {*;}
+-keep class com.j256.** {*;}
+-keep class com.squareup.** {*;}
+-keep class com.github.bumptech.** {*;}
+-keep class com.parse** {*;}
